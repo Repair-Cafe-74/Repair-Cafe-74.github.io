@@ -4,8 +4,8 @@ backend:
   name: github
   repo: Repair-Cafe-74/Repair-Cafe-74.github.io
   branch: main
-  site_domain: repair-cafe-74.netlify.app
-  base_url: https://api.netlify.com
+  site_domain: repair-cafe-74.github.io
+  base_url: https://repair-cafe-74.netlify.app
   auth_endpoint: auth
 
 media_folder: "public/images/uploads"

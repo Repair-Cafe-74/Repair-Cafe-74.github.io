@@ -1,0 +1,100 @@
+---
+import "../styles/global.css";
+import { CalendarDays, HandHeart, MapPinned, Menu, Wrench } from "@lucide/astro";
+
+type Props = {
+  title: string;
+  description?: string;
+};
+
+const {
+  title,
+  description = "Repair Cafe 74 aide les habitantes et habitants de Haute-Savoie a reparer, apprendre et prolonger la vie des objets.",
+} = Astro.props;
+
+const navItems = [
+  ["Association", "/association"],
+  ["Agenda", "/agenda"],
+  ["Carte", "/carte"],
+  ["Ressources", "/ressources"],
+  ["FAQ", "/faq"],
+  ["Presse", "/presse"],
+  ["Contact", "/contact"],
+];
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={`${title} - Repair Cafe 74`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{title} - Repair Cafe 74</title>
+  </head>
+  <body class="min-h-screen text-ink antialiased">
+    <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-paper focus:px-4 focus:py-2" href="#contenu">
+      Aller au contenu
+    </a>
+    <header class="border-b border-ink/10 bg-paper/92 backdrop-blur">
+      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+        <a href="/" class="flex items-center gap-3 font-semibold">
+          <span class="grid h-10 w-10 place-items-center rounded-full bg-moss text-paper">
+            <Wrench size={21} aria-hidden="true" />
+          </span>
+          <span class="leading-tight">
+            <span class="block text-lg">Repair Cafe 74</span>
+            <span class="block text-xs font-normal uppercase tracking-[0.18em] text-ink/60">Reparer ensemble</span>
+          </span>
+        </a>
+        <details class="group sm:hidden">
+          <summary class="flex cursor-pointer list-none items-center gap-2 rounded-md border border-ink/15 px-3 py-2 text-sm font-medium">
+            <Menu size={18} aria-hidden="true" />
+            Menu
+          </summary>
+          <nav class="absolute left-4 right-4 z-40 mt-3 rounded-md border border-ink/10 bg-paper p-3 shadow-lg" aria-label="Navigation mobile">
+            {navItems.map(([label, href]) => <a class="block rounded px-3 py-2 text-sm hover:bg-mist" href={href}>{label}</a>)}
+          </nav>
+        </details>
+        <nav class="hidden items-center gap-1 sm:flex" aria-label="Navigation principale">
+          {navItems.map(([label, href]) => <a class="rounded px-3 py-2 text-sm font-medium text-ink/76 hover:bg-mist hover:text-ink" href={href}>{label}</a>)}
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <slot />
+    </main>
+
+    <footer class="mt-20 border-t border-ink/10 bg-mist">
+      <div class="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-[1.5fr_1fr_1fr] lg:px-8">
+        <div>
+          <div class="mb-3 flex items-center gap-2 font-semibold">
+            <HandHeart size={20} aria-hidden="true" />
+            Repair Cafe 74
+          </div>
+          <p class="max-w-xl text-sm leading-6 text-ink/70">
+            Association locale fictive pour cette maquette. Les textes, dates et lieux pourront etre remplaces via les fichiers Markdown ou Decap CMS.
+          </p>
+        </div>
+        <div class="text-sm">
+          <p class="mb-3 font-semibold">Rendez-vous</p>
+          <a class="flex items-center gap-2 text-ink/72 hover:text-ink" href="/agenda">
+            <CalendarDays size={17} aria-hidden="true" />
+            Voir l'agenda
+          </a>
+        </div>
+        <div class="text-sm">
+          <p class="mb-3 font-semibold">Lieux</p>
+          <a class="flex items-center gap-2 text-ink/72 hover:text-ink" href="/carte">
+            <MapPinned size={17} aria-hidden="true" />
+            Ouvrir la carte
+          </a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

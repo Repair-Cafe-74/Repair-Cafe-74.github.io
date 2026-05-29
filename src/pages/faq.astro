@@ -1,0 +1,22 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+
+const items = (await getCollection("faq")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout title="FAQ">
+  <PageHeader eyebrow="FAQ" title="Questions frequentes." description="Une FAQ simple, statique et entierement editable depuis le CMS." />
+  <section class="mx-auto grid max-w-4xl gap-4 px-4 sm:px-6 lg:px-8">
+    {items.map(async (item) => {
+      const { Content } = await item.render();
+      return (
+        <details class="rounded-md border border-ink/10 bg-white p-5 shadow-sm">
+          <summary class="cursor-pointer text-lg font-semibold">{item.data.question}</summary>
+          <div class="prose-content mt-4 text-ink/72"><Content /></div>
+        </details>
+      );
+    })}
+  </section>
+</BaseLayout>

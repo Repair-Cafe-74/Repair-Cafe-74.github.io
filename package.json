@@ -1,0 +1,29 @@
+{
+  "name": "site-repair-cafe-74",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
+    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "cms:proxy": "decap-server",
+    "start:all": "concurrently \"npm run cms:proxy\" \"npm run dev\""
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "latest",
+    "@astrojs/tailwind": "latest",
+    "@lucide/astro": "^1.17.0",
+    "astro": "latest",
+    "leaflet": "latest",
+    "tailwindcss": "latest"
+  },
+  "devDependencies": {
+    "@astrojs/check": "latest",
+    "@types/leaflet": "^1.9.21",
+    "concurrently": "latest",
+    "decap-server": "latest",
+    "typescript": "latest"
+  }
+}

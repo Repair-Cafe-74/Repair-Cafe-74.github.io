@@ -1,0 +1,18 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import EventCard from "../components/EventCard.astro";
+import PageHeader from "../components/PageHeader.astro";
+
+const events = (await getCollection("events")).sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+---
+
+<BaseLayout title="Agenda">
+  <PageHeader eyebrow="Agenda" title="Les prochains ateliers." description="Les evenements sont stockes en Markdown et modifiables depuis Decap CMS." />
+  <section class="mx-auto grid max-w-4xl gap-5 px-4 sm:px-6 lg:px-8">
+    {events.map(async (event) => {
+      const { Content } = await event.render();
+      return <EventCard event={event}><Content /></EventCard>;
+    })}
+  </section>
+</BaseLayout>

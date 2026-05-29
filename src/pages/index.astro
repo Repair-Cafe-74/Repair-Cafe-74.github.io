@@ -1,0 +1,67 @@
+---
+import { CalendarDays, MapPinned, Recycle, Wrench } from "@lucide/astro";
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import EventCard from "../components/EventCard.astro";
+
+const events = (await getCollection("events"))
+  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf())
+  .slice(0, 2);
+---
+
+<BaseLayout title="Accueil">
+  <section class="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.1fr_0.9fr] md:items-center lg:px-8">
+    <div>
+      <p class="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-clay">Haute-Savoie</p>
+      <h1 class="text-4xl font-semibold leading-tight sm:text-6xl">Reparer ensemble les objets du quotidien.</h1>
+      <p class="mt-6 max-w-2xl text-lg leading-8 text-ink/72">
+        Repair Cafe 74 rassemble des benevoles, des outils et des savoir-faire pour aider chacun a diagnostiquer, reparer et apprendre dans une ambiance simple et conviviale.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a class="rounded-md bg-moss px-5 py-3 text-sm font-semibold text-paper hover:bg-ink" href="/agenda">Voir les prochains ateliers</a>
+        <a class="rounded-md border border-ink/15 px-5 py-3 text-sm font-semibold hover:bg-mist" href="/carte">Trouver un lieu</a>
+      </div>
+    </div>
+    <div class="grid gap-3 rounded-md border border-ink/10 bg-white p-5 shadow-sm">
+      <div class="flex items-start gap-4">
+        <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-mist text-moss"><Wrench size={22} aria-hidden="true" /></span>
+        <div>
+          <h2 class="font-semibold">Reparer</h2>
+          <p class="mt-1 text-sm leading-6 text-ink/70">Des diagnostics collectifs pour prolonger la vie des appareils, vetements, velos et objets utiles.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-4">
+        <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-mist text-moss"><Recycle size={22} aria-hidden="true" /></span>
+        <div>
+          <h2 class="font-semibold">Transmettre</h2>
+          <p class="mt-1 text-sm leading-6 text-ink/70">Chaque atelier est un moment d'apprentissage, pas seulement un service de reparation.</p>
+        </div>
+      </div>
+      <div class="flex items-start gap-4">
+        <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-mist text-moss"><MapPinned size={22} aria-hidden="true" /></span>
+        <div>
+          <h2 class="font-semibold">Rester local</h2>
+          <p class="mt-1 text-sm leading-6 text-ink/70">Des permanences legeres, proches des quartiers et faciles a animer par des benevoles.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-mist/70 py-14">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div class="mb-7 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p class="mb-2 flex items-center gap-2 text-sm font-semibold text-clay"><CalendarDays size={17} aria-hidden="true" /> Agenda</p>
+          <h2 class="text-3xl font-semibold">Prochains rendez-vous</h2>
+        </div>
+        <a class="text-sm font-semibold text-moss hover:text-ink" href="/agenda">Tout l'agenda</a>
+      </div>
+      <div class="grid gap-5 md:grid-cols-2">
+        {events.map(async (event) => {
+          const { Content } = await event.render();
+          return <EventCard event={event}><Content /></EventCard>;
+        })}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

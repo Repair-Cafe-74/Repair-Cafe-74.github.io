@@ -1,0 +1,69 @@
+local_backend: true
+
+backend:
+  name: github
+  repo: ORGANISATION/site-repair-cafe-74
+  branch: main
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "events"
+    label: "Evenements"
+    folder: "src/content/events"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Titre", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Lieu", name: "location", widget: "string" }
+      - { label: "Resume", name: "summary", widget: "text" }
+      - { label: "Contenu", name: "body", widget: "markdown" }
+
+  - name: "faq"
+    label: "FAQ"
+    folder: "src/content/faq"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Question", name: "question", widget: "string" }
+      - { label: "Ordre", name: "order", widget: "number", default: 0 }
+      - { label: "Reponse", name: "body", widget: "markdown" }
+
+  - name: "locations"
+    label: "Lieux"
+    folder: "src/content/locations"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Nom", name: "name", widget: "string" }
+      - { label: "Latitude", name: "lat", widget: "number", value_type: "float" }
+      - { label: "Longitude", name: "lng", widget: "number", value_type: "float" }
+      - { label: "Adresse", name: "address", widget: "string" }
+      - { label: "Horaires", name: "hours", widget: "string" }
+      - { label: "Lien", name: "link", widget: "string", required: false }
+      - { label: "Description", name: "body", widget: "markdown" }
+
+  - name: "resources"
+    label: "Ressources"
+    folder: "src/content/resources"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Titre", name: "title", widget: "string" }
+      - { label: "Fichier", name: "file", widget: "file", media_folder: "/public/documents", public_folder: "/documents" }
+      - { label: "Type", name: "type", widget: "string", default: "PDF" }
+      - { label: "Ordre", name: "order", widget: "number", default: 0 }
+      - { label: "Description", name: "body", widget: "markdown" }
+
+  - name: "press"
+    label: "Presse et liens"
+    folder: "src/content/press"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Titre", name: "title", widget: "string" }
+      - { label: "URL", name: "url", widget: "string" }
+      - { label: "Source", name: "source", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }

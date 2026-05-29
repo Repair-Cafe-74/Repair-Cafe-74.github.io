@@ -1,0 +1,69 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+type Props = {
+  locations: CollectionEntry<"locations">[];
+};
+
+const { locations } = Astro.props;
+---
+
+<div class="overflow-hidden rounded-md border border-ink/10 bg-white shadow-sm">
+  <div id="map" class="h-[28rem] w-full" data-locations={JSON.stringify(locations.map((location) => ({
+    name: location.data.name,
+    lat: location.data.lat,
+    lng: location.data.lng,
+    address: location.data.address,
+    hours: location.data.hours,
+    link: location.data.link,
+  })))}></div>
+  <noscript>
+    <div class="p-4 text-sm text-ink/70">La carte interactive necessite JavaScript. Les lieux sont listes sous la carte.</div>
+  </noscript>
+</div>
+
+<script>
+  import L from "leaflet";
+  import "leaflet/dist/leaflet.css";
+
+  type MapLocation = {
+    name: string;
+    lat: number;
+    lng: number;
+    address: string;
+    hours: string;
+    link?: string;
+  };
+
+  const element = document.querySelector("#map");
+  if (element instanceof HTMLElement) {
+    const locations = JSON.parse(element.dataset.locations || "[]") as MapLocation[];
+    const map = L.map(element, { scrollWheelZoom: false });
+    const bounds = L.latLngBounds([]);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(map);
+
+    locations.forEach((location) => {
+      const latLng = L.latLng(location.lat, location.lng);
+      bounds.extend(latLng);
+      const marker = L.marker(latLng).addTo(map);
+      const link = location.link ? `<p><a href="${location.link}">Plus d'informations</a></p>` : "";
+      marker.bindPopup(`
+        <strong>${location.name}</strong>
+        <p>${location.address}</p>
+        <p>${location.hours}</p>
+        ${link}
+      `);
+    });
+
+    if (locations.length > 1) {
+      map.fitBounds(bounds, { padding: [36, 36] });
+    } else if (locations.length === 1) {
+      map.setView([locations[0].lat, locations[0].lng], 13);
+    } else {
+      map.setView([45.9, 6.13], 11);
+    }
+  }
+</script>

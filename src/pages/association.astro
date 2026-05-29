@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+---
+
+<BaseLayout title="Association">
+  <PageHeader eyebrow="Association" title="Une association locale pour apprendre a reparer." description="Cette premiere version utilise du contenu fictif pour tester le site. La structure est prete pour recevoir les vrais textes de l'association." />
+  <section class="mx-auto grid max-w-6xl gap-8 px-4 sm:px-6 md:grid-cols-3 lg:px-8">
+    <article class="rounded-md border border-ink/10 bg-white p-6 shadow-sm">
+      <h2 class="text-xl font-semibold">Notre histoire</h2>
+      <p class="mt-3 leading-7 text-ink/72">Repair Cafe 74 est ne d'une envie simple : reduire le gaspillage en rendant la reparation plus accessible, plus joyeuse et plus collective.</p>
+    </article>
+    <article class="rounded-md border border-ink/10 bg-white p-6 shadow-sm">
+      <h2 class="text-xl font-semibold">Nos objectifs</h2>
+      <p class="mt-3 leading-7 text-ink/72">Partager des competences, faire durer les objets, creer des liens de quartier et rendre les choix sobres plus faciles au quotidien.</p>
+    </article>
+    <article class="rounded-md border border-ink/10 bg-white p-6 shadow-sm">
+      <h2 class="text-xl font-semibold">Nos activites</h2>
+      <p class="mt-3 leading-7 text-ink/72">Ateliers de diagnostic, permanences textiles, temps d'initiation et partenariats avec les lieux associatifs locaux.</p>
+    </article>
+  </section>
+</BaseLayout>

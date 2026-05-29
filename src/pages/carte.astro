@@ -1,0 +1,25 @@
+---
+import { getCollection } from "astro:content";
+import { MapPin } from "@lucide/astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import LocationMap from "../components/LocationMap.astro";
+import PageHeader from "../components/PageHeader.astro";
+
+const locations = await getCollection("locations");
+---
+
+<BaseLayout title="Carte">
+  <PageHeader eyebrow="Carte" title="Les lieux de presence." description="Une carte Leaflet avec fonds OpenStreetMap, chargee uniquement sur cette page." />
+  <section class="mx-auto grid max-w-6xl gap-8 px-4 sm:px-6 lg:px-8">
+    <LocationMap locations={locations} />
+    <div class="grid gap-4 md:grid-cols-3">
+      {locations.map((location) => (
+        <article class="rounded-md border border-ink/10 bg-white p-5 shadow-sm">
+          <h2 class="flex items-start gap-2 font-semibold"><MapPin class="mt-1 shrink-0 text-clay" size={18} aria-hidden="true" />{location.data.name}</h2>
+          <p class="mt-3 text-sm leading-6 text-ink/70">{location.data.address}</p>
+          <p class="mt-2 text-sm font-medium text-ink/80">{location.data.hours}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

@@ -2,8 +2,9 @@ local_backend: true
 
 backend:
   name: github
-  repo: epair-Cafe-74/Repair-Cafe-74.github.io
+  repo: Repair-Cafe-74/Repair-Cafe-74.github.io
   branch: main
+  site_domain: repair-cafe-74-oauth.netlify.app
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"

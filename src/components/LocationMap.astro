@@ -6,6 +6,8 @@ type Props = {
 };
 
 const { locations } = Astro.props;
+
+const detailIdForLocation = (id: string) => `location-details-${id.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
 ---
 
 <div class="overflow-hidden rounded-md border border-ink/10 bg-white shadow-sm">
@@ -16,6 +18,8 @@ const { locations } = Astro.props;
     address: location.data.address,
     hours: location.data.hours,
     link: location.data.link,
+    hasDetails: location.data.more_details,
+    detailId: detailIdForLocation(location.id),
   })))}></div>
   <noscript>
     <div class="p-4 text-sm text-ink/70">La carte interactive necessite JavaScript. Les lieux sont listes sous la carte.</div>
@@ -33,6 +37,8 @@ const { locations } = Astro.props;
     address: string;
     hours: string;
     link?: string;
+    hasDetails: boolean;
+    detailId: string;
   };
 
   const element = document.querySelector("#map");
@@ -49,14 +55,52 @@ const { locations } = Astro.props;
       const latLng = L.latLng(location.lat, location.lng);
       bounds.extend(latLng);
       const marker = L.marker(latLng).addTo(map);
-      const link = location.link ? `<p><a href="${location.link}">Plus d'informations</a></p>` : "";
+      const detailsLink = location.hasDetails
+        ? `<p><a href="#${location.detailId}" data-location-details-target="${location.detailId}">Plus d'informations</a></p>`
+        : "";
+      const externalLink = location.link ? `<p><a href="${location.link}">Site web</a></p>` : "";
       marker.bindPopup(`
         <strong>${location.name}</strong>
         <p>${location.address}</p>
         <p>${location.hours}</p>
-        ${link}
+        ${detailsLink}
+        ${externalLink}
       `);
     });
+
+    const showLocationDetails = (detailId: string) => {
+      document.querySelectorAll<HTMLElement>("[data-location-details]").forEach((details) => {
+        const isSelected = details.id === detailId;
+        details.hidden = !isSelected;
+        details.classList.toggle("hidden", !isSelected);
+      });
+
+      const details = document.getElementById(detailId);
+      details?.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
+    element.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      const link = target.closest<HTMLAnchorElement>("[data-location-details-target]");
+      if (!link) return;
+
+      event.preventDefault();
+      const detailId = link.dataset.locationDetailsTarget;
+      if (detailId) {
+        history.replaceState(null, "", `#${detailId}`);
+        showLocationDetails(detailId);
+      }
+    });
+
+    if (window.location.hash) {
+      const detailId = window.location.hash.slice(1);
+      const details = document.getElementById(detailId);
+      if (details?.matches("[data-location-details]")) {
+        showLocationDetails(detailId);
+      }
+    }
 
     if (locations.length > 1) {
       map.fitBounds(bounds, { padding: [36, 36] });

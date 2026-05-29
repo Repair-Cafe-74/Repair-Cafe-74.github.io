@@ -2,7 +2,7 @@ local_backend: true
 
 backend:
   name: github
-  repo: ORGANISATION/site-repair-cafe-74
+  repo: epair-Cafe-74/Repair-Cafe-74.github.io
   branch: main
 
 media_folder: "public/images/uploads"

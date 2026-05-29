@@ -1,0 +1,115 @@
+---
+import { getCollection } from "astro:content";
+import { CalendarDays, ChevronLeft, ChevronRight } from "@lucide/astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+
+const photos = (await getCollection("photos")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const photoItems = photos.map((photo) => ({
+  title: photo.data.title,
+  image: photo.data.image,
+  alt: photo.data.alt,
+  caption: photo.data.caption,
+  date: new Intl.DateTimeFormat("fr-FR", { dateStyle: "long" }).format(photo.data.date),
+}));
+---
+
+<BaseLayout title="Photos">
+  <PageHeader eyebrow="Photos" title="La vie des ateliers en images." description="Un carrousel simple avec vignettes, editable depuis Decap CMS. Les visuels actuels sont fictifs et pourront etre remplaces par de vraies photos." />
+  <section class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <div class="photo-carousel overflow-hidden rounded-md border border-ink/10 bg-white shadow-sm" data-photos={JSON.stringify(photoItems)}>
+      <div class="grid gap-0 lg:grid-cols-[1.35fr_0.65fr]">
+        <div class="relative bg-ink">
+          <img class="carousel-image h-full min-h-[22rem] w-full object-cover sm:min-h-[30rem]" src={photoItems[0]?.image} alt={photoItems[0]?.alt} />
+          <div class="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 bg-gradient-to-t from-ink/76 to-transparent p-4">
+            <button class="carousel-prev grid h-11 w-11 place-items-center rounded-full bg-paper text-ink shadow-sm hover:bg-mist" type="button" aria-label="Photo precedente">
+              <ChevronLeft size={24} aria-hidden="true" />
+            </button>
+            <button class="carousel-next grid h-11 w-11 place-items-center rounded-full bg-paper text-ink shadow-sm hover:bg-mist" type="button" aria-label="Photo suivante">
+              <ChevronRight size={24} aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+
+        <aside class="flex flex-col justify-between p-6">
+          <div>
+            <p class="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.16em] text-clay">
+              <CalendarDays size={17} aria-hidden="true" />
+              <span class="carousel-date">{photoItems[0]?.date}</span>
+            </p>
+            <h2 class="carousel-title text-3xl font-semibold leading-tight">{photoItems[0]?.title}</h2>
+            <p class="carousel-caption mt-4 text-base leading-7 text-ink/72">{photoItems[0]?.caption}</p>
+          </div>
+          <p class="carousel-count mt-8 text-sm font-semibold text-ink/56">1 / {photoItems.length}</p>
+        </aside>
+      </div>
+
+      <div class="border-t border-ink/10 bg-mist/45 p-4">
+        <div class="carousel-thumbs flex gap-3 overflow-x-auto pb-1" role="tablist" aria-label="Choisir une photo">
+          {photoItems.map((photo, index) => (
+            <button
+              class="carousel-thumb h-20 w-28 shrink-0 overflow-hidden rounded-md border-2 border-transparent bg-white opacity-70 transition hover:opacity-100 aria-selected:border-moss aria-selected:opacity-100"
+              type="button"
+              role="tab"
+              aria-selected={index === 0 ? "true" : "false"}
+              aria-label={`Afficher ${photo.title}`}
+              data-index={index}
+            >
+              <img class="h-full w-full object-cover" src={photo.image} alt="" loading={index < 4 ? "eager" : "lazy"} />
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  type PhotoItem = {
+    title: string;
+    image: string;
+    alt: string;
+    caption: string;
+    date: string;
+  };
+
+  const carousel = document.querySelector(".photo-carousel");
+  if (carousel instanceof HTMLElement) {
+    const photos = JSON.parse(carousel.dataset.photos || "[]") as PhotoItem[];
+    const image = carousel.querySelector<HTMLImageElement>(".carousel-image");
+    const title = carousel.querySelector<HTMLElement>(".carousel-title");
+    const caption = carousel.querySelector<HTMLElement>(".carousel-caption");
+    const date = carousel.querySelector<HTMLElement>(".carousel-date");
+    const count = carousel.querySelector<HTMLElement>(".carousel-count");
+    const previous = carousel.querySelector<HTMLButtonElement>(".carousel-prev");
+    const next = carousel.querySelector<HTMLButtonElement>(".carousel-next");
+    const thumbs = Array.from(carousel.querySelectorAll<HTMLButtonElement>(".carousel-thumb"));
+    let currentIndex = 0;
+
+    const showPhoto = (index: number) => {
+      if (!photos.length || !image || !title || !caption || !date || !count) return;
+      currentIndex = (index + photos.length) % photos.length;
+      const photo = photos[currentIndex];
+      image.src = photo.image;
+      image.alt = photo.alt;
+      title.textContent = photo.title;
+      caption.textContent = photo.caption;
+      date.textContent = photo.date;
+      count.textContent = `${currentIndex + 1} / ${photos.length}`;
+      thumbs.forEach((thumb, thumbIndex) => {
+        thumb.setAttribute("aria-selected", String(thumbIndex === currentIndex));
+      });
+      thumbs[currentIndex]?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    };
+
+    previous?.addEventListener("click", () => showPhoto(currentIndex - 1));
+    next?.addEventListener("click", () => showPhoto(currentIndex + 1));
+    thumbs.forEach((thumb) => {
+      thumb.addEventListener("click", () => showPhoto(Number(thumb.dataset.index || 0)));
+    });
+    carousel.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") showPhoto(currentIndex - 1);
+      if (event.key === "ArrowRight") showPhoto(currentIndex + 1);
+    });
+  }
+</script>

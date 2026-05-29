@@ -38,6 +38,18 @@ const resources = defineCollection({
   }),
 });
 
+const photos = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    image: z.string(),
+    alt: z.string(),
+    caption: z.string(),
+    date: z.coerce.date(),
+    featured: z.boolean().default(false),
+  }),
+});
+
 const locations = defineCollection({
   type: "content",
   schema: z.object({
@@ -50,4 +62,4 @@ const locations = defineCollection({
   }),
 });
 
-export const collections = { events, faq, press, resources, locations };
+export const collections = { events, faq, press, resources, photos, locations };

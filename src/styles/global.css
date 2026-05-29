@@ -43,3 +43,25 @@ a {
   margin: 0 0 1rem;
   padding-left: 1.25rem;
 }
+
+.agenda-list-panel {
+  display: none;
+}
+
+#agenda-calendar:checked ~ .agenda-calendar-panel {
+  display: grid;
+}
+
+#agenda-list:checked ~ .agenda-calendar-panel {
+  display: none;
+}
+
+#agenda-list:checked ~ .agenda-list-panel {
+  display: grid;
+}
+
+#agenda-calendar:checked ~ div .agenda-calendar-tab,
+#agenda-list:checked ~ div .agenda-list-tab {
+  background: #3f6f55;
+  color: #fbfaf6;
+}

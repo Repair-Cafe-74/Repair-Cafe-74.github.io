@@ -29,6 +29,7 @@ Le proxy local Decap ecrit directement dans les fichiers Markdown du depot. Les 
 - `src/content/locations` : lieux affiches sur la carte
 - `src/content/faq` : questions frequentes
 - `src/content/resources` : ressources PDF
+- `src/content/photos` : galerie photos
 - `src/content/press` : liens presse et partenaires
 
 ## Deploiement GitHub Pages

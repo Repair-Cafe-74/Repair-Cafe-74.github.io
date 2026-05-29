@@ -57,6 +57,19 @@ collections:
       - { label: "Ordre", name: "order", widget: "number", default: 0 }
       - { label: "Description", name: "body", widget: "markdown" }
 
+  - name: "photos"
+    label: "Photos"
+    folder: "src/content/photos"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Titre", name: "title", widget: "string" }
+      - { label: "Image", name: "image", widget: "image", media_folder: "/public/images/uploads", public_folder: "/images/uploads" }
+      - { label: "Texte alternatif", name: "alt", widget: "string" }
+      - { label: "Legende", name: "caption", widget: "text" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Mise en avant", name: "featured", widget: "boolean", default: false }
+
   - name: "press"
     label: "Presse et liens"
     folder: "src/content/press"

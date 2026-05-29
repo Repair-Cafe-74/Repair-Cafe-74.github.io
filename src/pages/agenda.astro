@@ -1,18 +1,113 @@
 ---
 import { getCollection } from "astro:content";
+import { CalendarDays, List } from "@lucide/astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import EventCard from "../components/EventCard.astro";
 import PageHeader from "../components/PageHeader.astro";
 
 const events = (await getCollection("events")).sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+
+const monthFormatter = new Intl.DateTimeFormat("fr-FR", { month: "long", year: "numeric" });
+const dayFormatter = new Intl.DateTimeFormat("fr-FR", { weekday: "short" });
+const timeFormatter = new Intl.DateTimeFormat("fr-FR", { hour: "2-digit", minute: "2-digit" });
+const weekdays = Array.from({ length: 7 }, (_, index) => {
+  const date = new Date(Date.UTC(2026, 5, 1 + index));
+  return dayFormatter.format(date);
+});
+
+type CalendarDay = {
+  date: Date | null;
+  events: typeof events;
+};
+
+const monthKeys = [...new Set(events.map((event) => `${event.data.date.getFullYear()}-${event.data.date.getMonth()}`))];
+const calendarMonths = monthKeys.map((key) => {
+  const [year, month] = key.split("-").map(Number);
+  const firstDay = new Date(year, month, 1);
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const mondayOffset = (firstDay.getDay() + 6) % 7;
+  const days: CalendarDay[] = [
+    ...Array.from({ length: mondayOffset }, () => ({ date: null, events: [] })),
+    ...Array.from({ length: daysInMonth }, (_, index) => {
+      const date = new Date(year, month, index + 1);
+      const dayEvents = events.filter((event) =>
+        event.data.date.getFullYear() === year &&
+        event.data.date.getMonth() === month &&
+        event.data.date.getDate() === date.getDate()
+      );
+      return { date, events: dayEvents };
+    }),
+  ];
+
+  while (days.length % 7 !== 0) {
+    days.push({ date: null, events: [] });
+  }
+
+  return {
+    key,
+    title: monthFormatter.format(firstDay),
+    weeks: Array.from({ length: days.length / 7 }, (_, index) => days.slice(index * 7, index * 7 + 7)),
+  };
+});
 ---
 
 <BaseLayout title="Agenda">
-  <PageHeader eyebrow="Agenda" title="Les prochains ateliers." description="Les evenements sont stockes en Markdown et modifiables depuis Decap CMS." />
-  <section class="mx-auto grid max-w-4xl gap-5 px-4 sm:px-6 lg:px-8">
-    {events.map(async (event) => {
-      const { Content } = await event.render();
-      return <EventCard event={event}><Content /></EventCard>;
-    })}
+  <PageHeader eyebrow="Agenda" title="Les prochains ateliers." description="La vue calendrier est affichee par defaut. La vue liste reste disponible pour parcourir les evenements en detail." />
+  <section class="agenda-view mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <input class="sr-only" type="radio" name="agenda-view" id="agenda-calendar" checked />
+    <input class="sr-only" type="radio" name="agenda-view" id="agenda-list" />
+
+    <div class="mb-6 inline-flex rounded-md border border-ink/10 bg-white p-1 shadow-sm">
+      <label class="agenda-tab agenda-calendar-tab inline-flex cursor-pointer items-center gap-2 rounded px-4 py-2 text-sm font-semibold" for="agenda-calendar">
+        <CalendarDays size={17} aria-hidden="true" />
+        Calendrier
+      </label>
+      <label class="agenda-tab agenda-list-tab inline-flex cursor-pointer items-center gap-2 rounded px-4 py-2 text-sm font-semibold" for="agenda-list">
+        <List size={17} aria-hidden="true" />
+        Liste
+      </label>
+    </div>
+
+    <div class="agenda-calendar-panel grid gap-8">
+      {calendarMonths.map((month) => (
+        <article class="overflow-hidden rounded-md border border-ink/10 bg-white shadow-sm">
+          <header class="border-b border-ink/10 bg-mist px-5 py-4">
+            <h2 class="text-2xl font-semibold capitalize">{month.title}</h2>
+          </header>
+          <div class="grid min-w-[48rem] grid-cols-7 border-b border-ink/10 bg-paper text-center text-xs font-semibold uppercase tracking-[0.14em] text-ink/58">
+            {weekdays.map((day) => <div class="border-r border-ink/10 px-3 py-3 last:border-r-0">{day}</div>)}
+          </div>
+          <div class="overflow-x-auto">
+            <div class="grid min-w-[48rem] grid-cols-7">
+              {month.weeks.flat().map((day) => (
+                <div class={`min-h-32 border-r border-t border-ink/10 p-3 last:border-r-0 ${day.date ? "bg-white" : "bg-mist/35"}`}>
+                  {day.date && (
+                    <>
+                      <p class="mb-2 text-sm font-semibold text-ink/68">{day.date.getDate()}</p>
+                      <div class="grid gap-2">
+                        {day.events.map((event) => (
+                          <article class="rounded bg-moss px-3 py-2 text-paper">
+                            <p class="text-xs font-semibold">{timeFormatter.format(event.data.date)}</p>
+                            <h3 class="mt-1 text-sm font-semibold leading-snug">{event.data.title}</h3>
+                            <p class="mt-1 text-xs leading-snug text-paper/82">{event.data.location}</p>
+                          </article>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="agenda-list-panel grid max-w-4xl gap-5">
+      {events.map(async (event) => {
+        const { Content } = await event.render();
+        return <EventCard event={event}><Content /></EventCard>;
+      })}
+    </div>
   </section>
 </BaseLayout>

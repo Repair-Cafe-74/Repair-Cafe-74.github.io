@@ -1,6 +1,6 @@
 ---
 title: "Session couture et textile"
-date: "2026-06-26T17:30:00+02:00"
+date: "2026-08-26T17:30:00+02:00"
 location: "Espace Vie Locale, Cran-Gevrier"
 summary: "Reprises simples, boutons, ourlets et conseils pour prolonger la vie des vetements."
 ---

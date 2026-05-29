@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 840" role="img" aria-labelledby="title desc">
+  <title id="title">Diagnostic velo</title>
+  <desc id="desc">Illustration photo-like d'une roue de velo et d'outils de diagnostic.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e5efe8"/>
+      <stop offset="1" stop-color="#fbfaf6"/>
+    </linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#17211d" flood-opacity=".16"/></filter>
+  </defs>
+  <rect width="1200" height="840" fill="url(#bg)"/>
+  <rect x="110" y="150" width="980" height="540" rx="34" fill="#f4eadc" filter="url(#shadow)"/>
+  <circle cx="424" cy="420" r="165" fill="none" stroke="#17211d" stroke-width="26"/>
+  <circle cx="424" cy="420" r="24" fill="#17211d"/>
+  <g stroke="#73a580" stroke-width="9">
+    <path d="M424 255v330M259 420h330M307 303l234 234M541 303L307 537"/>
+  </g>
+  <path d="M664 318h220l-64 156H590l74-156z" fill="#3f6f55"/>
+  <path d="M735 474l80 88M804 474l-78 88" stroke="#17211d" stroke-width="18" stroke-linecap="round"/>
+  <rect x="760" y="238" width="180" height="42" rx="21" fill="#b56b4d"/>
+  <rect x="825" y="208" width="48" height="104" rx="24" fill="#fbfaf6"/>
+</svg>

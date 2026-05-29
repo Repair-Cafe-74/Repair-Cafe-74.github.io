@@ -81,7 +81,8 @@ Contraintes :
 ## 3. Agenda des événements
 
 Fonctionnalités :
-- liste chronologique
+- vue calendrier par défaut, proche de l’expérience Google Calendar
+- possibilité de basculer vers une vue liste chronologique
 - affichage date/heure
 - lieu
 - description
@@ -91,7 +92,23 @@ Les événements sont stockés en Markdown.
 
 ---
 
-## 4. Ressources PDF
+## 4. Galerie photos
+
+Afficher une galerie moderne de photos sous forme de carrousel :
+- grande photo active
+- boutons précédent / suivant
+- vignettes de navigation sous le carrousel
+- image
+- titre
+- légende
+- date
+- texte alternatif
+
+Les photos doivent être éditables depuis Decap CMS.
+
+---
+
+## 5. Ressources PDF
 
 Permettre :
 - upload de PDF
@@ -100,13 +117,13 @@ Permettre :
 
 ---
 
-## 5. FAQ
+## 6. FAQ
 
 FAQ éditable depuis Decap CMS.
 
 ---
 
-## 6. Sites et médias parlant de l’association
+## 7. Sites et médias parlant de l’association
 
 Liste éditable de :
 - liens
@@ -116,7 +133,7 @@ Liste éditable de :
 
 ---
 
-## 7. Contact
+## 8. Contact
 
 Contenu :
 - email
@@ -175,6 +192,7 @@ Utiliser :
 │       ├── events/
 │       ├── faq/
 │       ├── press/
+│       ├── photos/
 │       ├── resources/
 │       └── locations/
 │
@@ -198,6 +216,7 @@ Créer les pages suivantes :
 | /association | Présentation |
 | /agenda | Agenda des événements |
 | /carte | Carte interactive |
+| /photos | Galerie photos |
 | /ressources | PDFs et documents |
 | /faq | FAQ |
 | /presse | Sites parlant de nous |
@@ -248,6 +267,21 @@ title: "Article du journal local"
 url: "https://example.com"
 source: "Journal Local"
 date: "2026-05-01"
+---
+```
+
+---
+
+## Photos
+
+```md
+---
+title: "Atelier réparation"
+image: "/images/uploads/atelier-reparation.jpg"
+alt: "Bénévole aidant une personne à réparer un appareil"
+caption: "Un atelier de diagnostic ouvert à toutes et tous."
+date: "2026-06-12"
+featured: true
 ---
 ```
 
@@ -652,4 +686,3 @@ Le site doit rester :
 - simple pour des bénévoles
 - simple à héberger
 - simple à faire évoluer
-

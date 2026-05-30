@@ -1,36 +1,19 @@
 ---
-import { Mail, Send } from "@lucide/astro";
+import { Mail, PhoneCall } from "@lucide/astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
 ---
 
 <BaseLayout title="Contact">
-  <PageHeader eyebrow="Contact" title="Envie de participer ou de poser une question ?" description="Pour cette premiere version, le contact repose sur un lien email simple afin d'eviter tout backend." />
-  <section class="mx-auto grid max-w-6xl gap-8 px-4 sm:px-6 md:grid-cols-[0.8fr_1.2fr] lg:px-8">
+  <PageHeader eyebrow="Contact" title="Envie de participer ou de poser une question ?" description="N'hésitez pas à nous contacter !" />
+  <section class="mx-auto grid max-w-6xl gap-8 px-4 sm:px-6 md:grid-cols-[1fr_1fr] lg:px-8">
     <article class="rounded-md border border-ink/10 bg-white p-6 shadow-sm">
       <h2 class="flex items-center gap-2 text-xl font-semibold"><Mail size={20} aria-hidden="true" /> Email</h2>
-      <a class="mt-4 inline-block text-moss hover:text-ink" href="mailto:contact@example.org">contact@example.org</a>
-      <p class="mt-4 text-sm leading-6 text-ink/70">Adresse fictive a remplacer quand le projet sera connecte a l'association.</p>
+      <a class="mt-4 inline-block text-moss hover:text-ink" href="mailto:repaircafe74@gmail.com">repaircafe74@gmail.com</a>
     </article>
-    <form class="rounded-md border border-ink/10 bg-white p-6 shadow-sm" action="mailto:contact@example.org" method="post" enctype="text/plain">
-      <div class="grid gap-4">
-        <label class="grid gap-2 text-sm font-medium">
-          Nom
-          <input class="rounded-md border border-ink/15 px-3 py-2" name="nom" autocomplete="name" />
-        </label>
-        <label class="grid gap-2 text-sm font-medium">
-          Email
-          <input class="rounded-md border border-ink/15 px-3 py-2" type="email" name="email" autocomplete="email" />
-        </label>
-        <label class="grid gap-2 text-sm font-medium">
-          Message
-          <textarea class="min-h-36 rounded-md border border-ink/15 px-3 py-2" name="message"></textarea>
-        </label>
-        <button class="inline-flex w-fit items-center gap-2 rounded-md bg-moss px-5 py-3 text-sm font-semibold text-paper hover:bg-ink" type="submit">
-          <Send size={17} aria-hidden="true" />
-          Envoyer
-        </button>
-      </div>
-    </form>
+    <article class="rounded-md border border-ink/10 bg-white p-6 shadow-sm">
+      <h2 class="flex items-center gap-2 text-xl font-semibold"><PhoneCall size={20} aria-hidden="true" /> Téléphone</h2>
+      <a class="mt-4 inline-block text-moss hover:text-ink" href="tel:0674403666">06 74 40 36 66</a>
+    </article>
   </section>
 </BaseLayout>

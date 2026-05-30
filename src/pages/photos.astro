@@ -15,14 +15,14 @@ const photoItems = photos.map((photo) => ({
 ---
 
 <BaseLayout title="Photos">
-  <PageHeader eyebrow="Photos" title="La vie des ateliers en images." description="Un carrousel simple avec vignettes, editable depuis Decap CMS. Les visuels actuels sont fictifs et pourront etre remplaces par de vraies photos." />
+  <PageHeader eyebrow="Photos" title="La vie des ateliers en images." description="Un carrousel simple avec vignettes, éditable depuis Decap CMS. Les visuels actuels sont fictifs et pourront être remplacés par de vraies photos." />
   <section class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
     <div class="photo-carousel overflow-hidden rounded-md border border-ink/10 bg-white shadow-sm" data-photos={JSON.stringify(photoItems)}>
       <div class="grid gap-0 lg:grid-cols-[1.35fr_0.65fr]">
         <div class="relative bg-ink">
           <img class="carousel-image h-full min-h-[22rem] w-full object-cover sm:min-h-[30rem]" src={photoItems[0]?.image} alt={photoItems[0]?.alt} />
           <div class="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 bg-gradient-to-t from-ink/76 to-transparent p-4">
-            <button class="carousel-prev grid h-11 w-11 place-items-center rounded-full bg-paper text-ink shadow-sm hover:bg-mist" type="button" aria-label="Photo precedente">
+            <button class="carousel-prev grid h-11 w-11 place-items-center rounded-full bg-paper text-ink shadow-sm hover:bg-mist" type="button" aria-label="Photo précédente">
               <ChevronLeft size={24} aria-hidden="true" />
             </button>
             <button class="carousel-next grid h-11 w-11 place-items-center rounded-full bg-paper text-ink shadow-sm hover:bg-mist" type="button" aria-label="Photo suivante">

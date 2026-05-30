@@ -8,7 +8,7 @@ const resources = (await getCollection("resources")).sort((a, b) => a.data.order
 ---
 
 <BaseLayout title="Ressources">
-  <PageHeader eyebrow="Ressources" title="Documents utiles." description="Les PDF pourront etre ajoutes dans Decap CMS puis telecharges depuis cette page." />
+  <PageHeader eyebrow="Ressources" title="Documents utiles." description="Les PDF pourront être ajoutés dans Decap CMS puis téléchargés depuis cette page." />
   <section class="mx-auto grid max-w-4xl gap-4 px-4 sm:px-6 lg:px-8">
     {resources.map(async (resource) => {
       const { Content } = await resource.render();
@@ -22,7 +22,7 @@ const resources = (await getCollection("resources")).sort((a, b) => a.data.order
             </div>
             <a class="inline-flex items-center gap-2 rounded-md bg-moss px-4 py-2 text-sm font-semibold text-paper hover:bg-ink" href={resource.data.file}>
               <Download size={17} aria-hidden="true" />
-              Telecharger
+              Télécharger
             </a>
           </div>
         </article>

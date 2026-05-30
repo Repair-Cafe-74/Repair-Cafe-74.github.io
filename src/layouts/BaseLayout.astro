@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { CalendarDays, HandHeart, MapPinned, Menu, Wrench } from "@lucide/astro";
+import { CalendarDays, HandHeart, MapPinned, Menu } from "@lucide/astro";
 
 type Props = {
   title: string;
@@ -43,13 +43,7 @@ const navItems = [
     <header class="border-b border-ink/10 bg-paper/92 backdrop-blur">
       <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
         <a href="/" class="flex items-center gap-3 font-semibold">
-          <span class="grid h-10 w-10 place-items-center rounded-full bg-moss text-paper">
-            <Wrench size={21} aria-hidden="true" />
-          </span>
-          <span class="leading-tight">
-            <span class="block text-lg">Repair Cafe 74</span>
-            <span class="block text-xs font-normal uppercase tracking-[0.18em] text-ink/60">Reparer ensemble</span>
-          </span>
+          <img class="h-11 w-auto sm:h-12" src="/images/logo_repaircafe74.png" alt="Repair Cafe 74" />
         </a>
         <details class="group sm:hidden">
           <summary class="flex cursor-pointer list-none items-center gap-2 rounded-md border border-ink/15 px-3 py-2 text-sm font-medium">

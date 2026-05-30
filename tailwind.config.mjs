@@ -4,12 +4,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: "#17211d",
-        moss: "#3f6f55",
-        leaf: "#73a580",
-        clay: "#b56b4d",
-        paper: "#fbfaf6",
-        mist: "#edf3ef"
+        ink: "#241832",
+        moss: "#6631a5",
+        leaf: "#4f9d69",
+        clay: "#ff7900",
+        paper: "#fffaf2",
+        mist: "#eef7e9"
       },
       fontFamily: {
         sans: [

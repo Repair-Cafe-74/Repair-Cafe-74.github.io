@@ -5,5 +5,3 @@ lng: 5.977043879759492
 address: "424 route d'Annecy, 74540 Saint-Félix"
 hours: "2e samedi du mois, 9h-12h"
 ---
-
-Permanence à Saint-Félix.

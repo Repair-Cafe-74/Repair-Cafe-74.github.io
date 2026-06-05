@@ -5,5 +5,3 @@ lng: 6.7268815049611765
 address: "Sous-sol de l'espace de coworking Le CHOZA, 74170 Les Contamines-Montjoie"
 hours: "Mardis des semaines paires, 10h-12h30"
 ---
-
-Permanence au sous-sol de l'espace de coworking Le CHOZA.

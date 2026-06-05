@@ -6,4 +6,6 @@ address: "Salle de la Poterie, 290 rue du Président Lavy, 74370 Argonay"
 hours: "Tous les jeudis, 18h-21h"
 ---
 
-Atelier hebdomadaire. L'entrée se trouve derrière le bâtiment.
+Atelier hebdomadaire. 
+
+L'entrée se trouve derrière le bâtiment.

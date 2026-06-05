@@ -59,7 +59,6 @@ const locations = defineCollection({
     address: z.string(),
     hours: z.string(),
     link: z.string().url().optional(),
-    more_details: z.boolean().default(false),
   }),
 });
 

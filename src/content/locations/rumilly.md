@@ -5,5 +5,3 @@ lng: 5.939005325045626
 address: "OSCAR, 4 route de Bessine, 74150 Rumilly"
 hours: "4e samedi de chaque mois"
 ---
-
-Permanence du Repair Café de Rumilly à l'OSCAR.

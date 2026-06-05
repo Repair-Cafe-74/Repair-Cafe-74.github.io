@@ -6,5 +6,3 @@ address: "Foyer municipal La Soierie, 141 route d'Albertville, 74210 Faverges-Se
 hours: "1er samedi de chaque mois, 9h-12h, d’octobre à juin"
 link: "http://www.lasoierie.com/famille-et-vie-locale/"
 ---
-
-Permanence au foyer municipal La Soierie.

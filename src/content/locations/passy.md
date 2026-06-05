@@ -5,5 +5,3 @@ lng: 6.698184885352309
 address: "Salle du club de foot de Marlioz, 330 avenue du Stade, 74190 Passy"
 hours: "Dernier mercredi de chaque mois, 15h-18h"
 ---
-
-Permanence dans la salle du club de foot de Marlioz.

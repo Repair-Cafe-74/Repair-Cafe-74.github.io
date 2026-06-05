@@ -7,6 +7,7 @@ import PageHeader from "../components/PageHeader.astro";
 
 const locations = await getCollection("locations");
 const detailIdForLocation = (id: string) => `location-details-${id.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
+const hasLocationDetails = (location: (typeof locations)[number]) => (location.body?.trim().length ?? 0) > 0;
 ---
 
 <BaseLayout title="Carte">
@@ -14,7 +15,7 @@ const detailIdForLocation = (id: string) => `location-details-${id.replace(/[^a-
   <section class="mx-auto grid max-w-6xl gap-8 px-4 sm:px-6 lg:px-8">
     <LocationMap locations={locations} />
     <div>
-      {locations.filter((location) => location.data.more_details).map(async (location) => {
+      {locations.filter(hasLocationDetails).map(async (location) => {
         const { Content } = await location.render();
         const detailId = detailIdForLocation(location.id);
 

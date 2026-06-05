@@ -8,7 +8,7 @@ const links = (await getCollection("press")).sort((a, b) => b.data.date.valueOf(
 ---
 
 <BaseLayout title="Presse">
-  <PageHeader eyebrow="Presse" title="Ils parlent de nous." description="Articles, mentions et partenaires pourront etre ajoutes au fil de l'eau." />
+  <PageHeader eyebrow="Presse" title="Ils parlent de nous." description="Articles, mentions et partenaires pourront être ajoutés au fil de l'eau." />
   <section class="mx-auto grid max-w-4xl gap-4 px-4 sm:px-6 lg:px-8">
     {links.map((item) => (
       <article class="rounded-md border border-ink/10 bg-white p-5 shadow-sm">

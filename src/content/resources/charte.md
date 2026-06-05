@@ -5,4 +5,4 @@ type: "PDF"
 order: 1
 ---
 
-Les principes d'accueil, de securite et de cooperation pendant les ateliers.
+Les principes d'accueil, de sécurité et de coopération pendant les ateliers.

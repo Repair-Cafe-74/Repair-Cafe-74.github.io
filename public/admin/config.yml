@@ -13,7 +13,7 @@ public_folder: "/images/uploads"
 
 collections:
   - name: "events"
-    label: "Evenements"
+    label: "Événements"
     folder: "src/content/events"
     create: true
     slug: "{{slug}}"
@@ -21,7 +21,7 @@ collections:
       - { label: "Titre", name: "title", widget: "string" }
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Lieu", name: "location", widget: "string" }
-      - { label: "Resume", name: "summary", widget: "text" }
+      - { label: "Résumé", name: "summary", widget: "text" }
       - { label: "Contenu", name: "body", widget: "markdown" }
 
   - name: "faq"
@@ -32,7 +32,7 @@ collections:
     fields:
       - { label: "Question", name: "question", widget: "string" }
       - { label: "Ordre", name: "order", widget: "number", default: 0 }
-      - { label: "Reponse", name: "body", widget: "markdown" }
+      - { label: "Réponse", name: "body", widget: "markdown" }
 
   - name: "locations"
     label: "Lieux"
@@ -69,7 +69,7 @@ collections:
       - { label: "Titre", name: "title", widget: "string" }
       - { label: "Image", name: "image", widget: "image", media_folder: "/public/images/uploads", public_folder: "/images/uploads" }
       - { label: "Texte alternatif", name: "alt", widget: "string" }
-      - { label: "Legende", name: "caption", widget: "text" }
+      - { label: "Légende", name: "caption", widget: "text" }
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Mise en avant", name: "featured", widget: "boolean", default: false }
 

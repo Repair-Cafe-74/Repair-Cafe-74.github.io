@@ -1,8 +1,8 @@
 ---
-title: "Affiche de presentation"
+title: "Affiche de présentation"
 file: "/documents/affiche-repair-cafe-74.pdf"
 type: "PDF"
 order: 2
 ---
 
-Une affiche a imprimer pour presenter les prochains rendez-vous.
+Une affiche à imprimer pour présenter les prochains rendez-vous.

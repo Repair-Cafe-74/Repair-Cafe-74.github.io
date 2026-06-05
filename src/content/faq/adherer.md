@@ -1,6 +1,6 @@
 ---
-question: "Faut-il adherer pour venir a un atelier ?"
+question: "Faut-il adhérer pour venir à un atelier ?"
 order: 1
 ---
 
-Non. Les ateliers sont ouverts a toutes et tous. Une adhesion ou une participation libre peut etre proposee pour soutenir l'association.
+Non. Les ateliers sont ouverts à toutes et tous. Une adhésion ou une participation libre peut être proposée pour soutenir l'association.

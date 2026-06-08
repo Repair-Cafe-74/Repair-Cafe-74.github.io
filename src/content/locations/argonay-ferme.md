@@ -1,5 +1,5 @@
 ---
-name: "Repair Café Argonay"
+name: "Repair Café Argonay - La Ferme"
 lat: 45.945701411670676
 lng: 6.139055527013838
 address: "Espace culturel La Ferme, centre du village, 74370 Argonay"

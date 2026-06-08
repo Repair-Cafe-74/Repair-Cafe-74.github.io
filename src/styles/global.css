@@ -45,24 +45,88 @@ a {
   padding-left: 1.25rem;
 }
 
-.agenda-list-panel {
-  display: none;
-}
-
-#agenda-calendar:checked ~ .agenda-calendar-panel {
-  display: grid;
-}
-
-#agenda-list:checked ~ .agenda-calendar-panel {
-  display: none;
-}
-
-#agenda-list:checked ~ .agenda-list-panel {
-  display: grid;
-}
-
-#agenda-calendar:checked ~ div .agenda-calendar-tab,
-#agenda-list:checked ~ div .agenda-list-tab {
+.agenda-filter[aria-pressed="true"] {
   background: #6631a5;
   color: #fffaf2;
+}
+
+.agenda-filter[aria-pressed="false"] {
+  opacity: 0.55;
+}
+
+.agenda-filter[aria-pressed="false"] span {
+  filter: grayscale(1);
+}
+
+.agenda-month {
+  display: none;
+}
+
+.agenda-month.is-active {
+  display: block;
+}
+
+.agenda-entry {
+  width: 100%;
+}
+
+.agenda-entry-permanence {
+  background: #4f9d69;
+}
+
+.agenda-entry-event {
+  background: #ff7900;
+}
+
+.agenda-mobile-weekday {
+  display: none;
+}
+
+.agenda-popover-close + .agenda-popover-content {
+  margin-top: -2.25rem;
+  padding-right: 3rem;
+}
+
+@media (max-width: 767px) {
+  .agenda-weekdays,
+  .agenda-empty-day {
+    display: none;
+  }
+
+  .agenda-month-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .agenda-day {
+    min-height: auto;
+    border-right: 0;
+    padding: 1rem;
+  }
+
+  .agenda-day:has(.agenda-entry) {
+    display: block;
+  }
+
+  .agenda-day:not(:has(.agenda-entry)) {
+    display: none;
+  }
+
+  .agenda-day.is-filtered-empty {
+    display: none;
+  }
+
+  .agenda-mobile-weekday {
+    display: inline;
+    text-transform: capitalize;
+  }
+
+  .agenda-entry {
+    min-height: 4.75rem;
+  }
+
+  .agenda-popover-close + .agenda-popover-content {
+    margin-top: 1rem;
+    padding-right: 0;
+  }
 }

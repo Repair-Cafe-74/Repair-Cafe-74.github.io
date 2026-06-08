@@ -1,96 +1,97 @@
 ---
 import { getCollection } from "astro:content";
-import { CalendarDays, List } from "@lucide/astro";
+import { CalendarDays, ChevronLeft, ChevronRight, Clock, MapPin, X } from "@lucide/astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import EventCard from "../components/EventCard.astro";
 import PageHeader from "../components/PageHeader.astro";
+import { buildAgendaEntries, buildAgendaMonths } from "../lib/agenda";
 
 const events = (await getCollection("events")).sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+const locations = (await getCollection("locations")).sort((a, b) => a.data.name.localeCompare(b.data.name, "fr"));
+const entries = buildAgendaEntries(events, locations);
+const calendarMonths = buildAgendaMonths(entries);
+const upcomingEvents = events.filter((event) => entries.some((entry) => entry.kind === "event" && entry.sourceId === event.id));
 
 const monthFormatter = new Intl.DateTimeFormat("fr-FR", { month: "long", year: "numeric" });
-const dayFormatter = new Intl.DateTimeFormat("fr-FR", { weekday: "short" });
+const weekdayFormatter = new Intl.DateTimeFormat("fr-FR", { weekday: "short" });
+const fullDateFormatter = new Intl.DateTimeFormat("fr-FR", { dateStyle: "full" });
 const timeFormatter = new Intl.DateTimeFormat("fr-FR", { hour: "2-digit", minute: "2-digit" });
 const weekdays = Array.from({ length: 7 }, (_, index) => {
   const date = new Date(Date.UTC(2026, 5, 1 + index));
-  return dayFormatter.format(date);
+  return weekdayFormatter.format(date);
 });
 
-type CalendarDay = {
-  date: Date | null;
-  events: typeof events;
-};
-
-const monthKeys = [...new Set(events.map((event) => `${event.data.date.getFullYear()}-${event.data.date.getMonth()}`))];
-const calendarMonths = monthKeys.map((key) => {
-  const [year, month] = key.split("-").map(Number);
-  const firstDay = new Date(year, month, 1);
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const mondayOffset = (firstDay.getDay() + 6) % 7;
-  const days: CalendarDay[] = [
-    ...Array.from({ length: mondayOffset }, () => ({ date: null, events: [] })),
-    ...Array.from({ length: daysInMonth }, (_, index) => {
-      const date = new Date(year, month, index + 1);
-      const dayEvents = events.filter((event) =>
-        event.data.date.getFullYear() === year &&
-        event.data.date.getMonth() === month &&
-        event.data.date.getDate() === date.getDate()
-      );
-      return { date, events: dayEvents };
-    }),
-  ];
-
-  while (days.length % 7 !== 0) {
-    days.push({ date: null, events: [] });
-  }
-
-  return {
-    key,
-    title: monthFormatter.format(firstDay),
-    weeks: Array.from({ length: days.length / 7 }, (_, index) => days.slice(index * 7, index * 7 + 7)),
-  };
-});
+const formatEntryTime = (date: Date, startsAt: string | null) => startsAt ? timeFormatter.format(date) : "Horaire à confirmer";
+const eventDetails = await Promise.all(upcomingEvents.map(async (event) => ({
+  event,
+  hasContent: (event.body?.trim().length ?? 0) > 0,
+  ...(await event.render()),
+})));
+const locationDetails = await Promise.all(locations.map(async (location) => ({
+  location,
+  hasContent: (location.body?.trim().length ?? 0) > 0,
+  ...(await location.render()),
+})));
 ---
 
 <BaseLayout title="Agenda">
-  <PageHeader eyebrow="Agenda" title="Les prochains ateliers." description="La vue calendrier est affichée par défaut. La vue liste reste disponible pour parcourir les événements en détail." />
+  <PageHeader eyebrow="Agenda" title="Quand nous retrouver ?" description="Retrouvez les permanences des Repair Cafés et autres événements des 12 prochains mois." />
   <section class="agenda-view mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-    <input class="sr-only" type="radio" name="agenda-view" id="agenda-calendar" checked />
-    <input class="sr-only" type="radio" name="agenda-view" id="agenda-list" />
-
-    <div class="mb-6 inline-flex rounded-md border border-ink/10 bg-white p-1 shadow-sm">
-      <label class="agenda-tab agenda-calendar-tab inline-flex cursor-pointer items-center gap-2 rounded px-4 py-2 text-sm font-semibold" for="agenda-calendar">
-        <CalendarDays size={17} aria-hidden="true" />
-        Calendrier
-      </label>
-      <label class="agenda-tab agenda-list-tab inline-flex cursor-pointer items-center gap-2 rounded px-4 py-2 text-sm font-semibold" for="agenda-list">
-        <List size={17} aria-hidden="true" />
-        Liste
-      </label>
+    <div class="agenda-legend mb-6 flex flex-wrap items-center gap-3 text-sm font-medium text-ink/72" aria-label="Filtres de l'agenda">
+      <button class="agenda-filter inline-flex items-center gap-2 rounded border border-ink/10 bg-white px-3 py-2 shadow-sm" type="button" data-agenda-filter="permanence" aria-pressed="true">
+        <span class="h-3 w-3 rounded-sm bg-leaf"></span>Permanence
+      </button>
+      <button class="agenda-filter inline-flex items-center gap-2 rounded border border-ink/10 bg-white px-3 py-2 shadow-sm" type="button" data-agenda-filter="event" aria-pressed="true">
+        <span class="h-3 w-3 rounded-sm bg-clay"></span>Événement
+      </button>
     </div>
 
-    <div class="agenda-calendar-panel grid gap-8">
-      {calendarMonths.map((month) => (
-        <article class="overflow-hidden rounded-md border border-ink/10 bg-white shadow-sm">
-          <header class="border-b border-ink/10 bg-mist px-5 py-4">
-            <h2 class="text-2xl font-semibold capitalize">{month.title}</h2>
-          </header>
-          <div class="grid min-w-[48rem] grid-cols-7 border-b border-ink/10 bg-paper text-center text-xs font-semibold uppercase tracking-[0.14em] text-ink/58">
-            {weekdays.map((day) => <div class="border-r border-ink/10 px-3 py-3 last:border-r-0">{day}</div>)}
-          </div>
-          <div class="overflow-x-auto">
-            <div class="grid min-w-[48rem] grid-cols-7">
-              {month.weeks.flat().map((day) => (
-                <div class={`min-h-32 border-r border-t border-ink/10 p-3 last:border-r-0 ${day.date ? "bg-white" : "bg-mist/35"}`}>
+    <div class="grid gap-5" data-agenda-calendar>
+      <aside class="agenda-popover hidden rounded-md border border-ink/10 bg-white p-5 shadow-md" data-agenda-popover aria-live="polite">
+        <button class="agenda-popover-close ml-auto flex h-9 w-9 items-center justify-center rounded border border-ink/10 text-ink/70 hover:bg-mist hover:text-ink" type="button" data-agenda-close aria-label="Fermer le detail">
+          <X size={18} aria-hidden="true" />
+        </button>
+        <div class="agenda-popover-content" data-agenda-popover-content></div>
+      </aside>
+
+      <div class="agenda-month-nav flex items-center justify-between gap-3 rounded-md border border-ink/10 bg-white px-3 py-3 shadow-sm sm:px-5">
+        <button class="agenda-month-button inline-flex h-10 w-10 shrink-0 items-center justify-center rounded border border-ink/10 text-ink/74 hover:bg-mist hover:text-ink disabled:cursor-not-allowed disabled:opacity-35" type="button" data-agenda-prev aria-label="Mois précédent">
+          <ChevronLeft size={20} aria-hidden="true" />
+        </button>
+        <h2 class="text-center text-xl font-semibold capitalize sm:text-2xl" data-agenda-title>{monthFormatter.format(calendarMonths[0].titleDate)}</h2>
+        <button class="agenda-month-button inline-flex h-10 w-10 shrink-0 items-center justify-center rounded border border-ink/10 text-ink/74 hover:bg-mist hover:text-ink disabled:cursor-not-allowed disabled:opacity-35" type="button" data-agenda-next aria-label="Mois suivant">
+          <ChevronRight size={20} aria-hidden="true" />
+        </button>
+      </div>
+
+      <div class="agenda-months">
+        {calendarMonths.map((month, monthIndex) => (
+          <article class={`agenda-month overflow-hidden rounded-md border border-ink/10 bg-white shadow-sm ${monthIndex === 0 ? "is-active" : ""}`} data-agenda-month data-month-title={monthFormatter.format(month.titleDate)}>
+            <div class="agenda-weekdays grid grid-cols-7 border-b border-ink/10 bg-paper text-center text-xs font-semibold uppercase text-ink/58">
+              {weekdays.map((day) => <div class="border-r border-ink/10 px-3 py-3 last:border-r-0">{day}</div>)}
+            </div>
+            <div class="agenda-month-grid grid grid-cols-7">
+              {month.days.map((day) => (
+                <div class={`agenda-day min-h-32 border-r border-t border-ink/10 p-3 last:border-r-0 ${day.date ? "bg-white" : "agenda-empty-day bg-mist/35"}`}>
                   {day.date && (
                     <>
-                      <p class="mb-2 text-sm font-semibold text-ink/68">{day.date.getDate()}</p>
+                      <p class="agenda-day-number mb-2 text-sm font-semibold text-ink/68">
+                        <span class="agenda-mobile-weekday">{weekdayFormatter.format(day.date)} </span>{day.date.getDate()}
+                      </p>
                       <div class="grid gap-2">
-                        {day.events.map((event) => (
-                          <article class="rounded bg-moss px-3 py-2 text-paper">
-                            <p class="text-xs font-semibold">{timeFormatter.format(event.data.date)}</p>
-                            <h3 class="mt-1 text-sm font-semibold leading-snug">{event.data.title}</h3>
-                            <p class="mt-1 text-xs leading-snug text-paper/82">{event.data.location}</p>
-                          </article>
+                        {day.entries.map((entry) => (
+                          <button
+                            class={`agenda-entry agenda-entry-${entry.kind} rounded px-3 py-2 text-left text-paper shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus-visible:translate-y-0`}
+                            type="button"
+                            data-agenda-kind={entry.kind}
+                            data-agenda-detail={entry.detailId}
+                          >
+                            <span class="flex items-center gap-1.5 text-xs font-semibold">
+                              <Clock size={13} aria-hidden="true" />
+                              {formatEntryTime(entry.date, entry.startsAt)}
+                            </span>
+                            <span class="mt-1 block text-sm font-semibold leading-snug">{entry.title}</span>
+                            {entry.kind === "event" && entry.location && <span class="mt-1 block text-xs leading-snug text-paper/88">{entry.location}</span>}
+                          </button>
                         ))}
                       </div>
                     </>
@@ -98,16 +99,147 @@ const calendarMonths = monthKeys.map((key) => {
                 </div>
               ))}
             </div>
-          </div>
-        </article>
-      ))}
-    </div>
+          </article>
+        ))}
+      </div>
 
-    <div class="agenda-list-panel grid max-w-4xl gap-5">
-      {events.map(async (event) => {
-        const { Content } = await event.render();
-        return <EventCard event={event}><Content /></EventCard>;
-      })}
+      <div class="hidden" data-agenda-details>
+        {locationDetails.map(({ location, Content, hasContent }) => (
+          <article id={`agenda-location-${location.id.replace(/[^a-zA-Z0-9_-]/g, "-")}`} class="agenda-detail-template">
+            <p class="mb-3 inline-flex rounded bg-leaf/12 px-2 py-1 text-xs font-semibold uppercase text-leaf">Permanence</p>
+            <h3 class="text-2xl font-semibold">{location.data.name}</h3>
+            <p class="mt-4 flex items-start gap-2 text-sm leading-6 text-ink/70">
+              <MapPin class="mt-0.5 shrink-0 text-clay" size={17} aria-hidden="true" />
+              {location.data.address}
+            </p>
+            <p class="mt-2 flex items-start gap-2 text-sm font-semibold text-ink/80">
+              <Clock class="mt-0.5 shrink-0 text-leaf" size={17} aria-hidden="true" />
+              {location.data.hours}
+            </p>
+            {location.data.link && (
+              <a class="mt-4 inline-flex text-sm font-semibold text-moss hover:text-ink" href={location.data.link} target="_blank" rel="noreferrer">
+                Site web
+              </a>
+            )}
+            {hasContent && (
+              <div class="prose-content mt-5 text-sm text-ink/75">
+                <Content />
+              </div>
+            )}
+          </article>
+        ))}
+
+        {eventDetails.map(({ event, Content, hasContent }) => (
+          <article id={`agenda-event-${event.id.replace(/[^a-zA-Z0-9_-]/g, "-")}`} class="agenda-detail-template">
+            <p class="mb-3 inline-flex rounded bg-clay/12 px-2 py-1 text-xs font-semibold uppercase text-clay">Événement</p>
+            <h3 class="text-2xl font-semibold">{event.data.title}</h3>
+            <p class="mt-4 flex items-start gap-2 text-sm font-semibold text-ink/80">
+              <CalendarDays class="mt-0.5 shrink-0 text-clay" size={17} aria-hidden="true" />
+              <time datetime={event.data.date.toISOString()}>{fullDateFormatter.format(event.data.date)} à {timeFormatter.format(event.data.date)}</time>
+            </p>
+            <p class="mt-2 flex items-start gap-2 text-sm leading-6 text-ink/70">
+              <MapPin class="mt-0.5 shrink-0 text-clay" size={17} aria-hidden="true" />
+              {event.data.location}
+            </p>
+            <p class="mt-4 leading-7 text-ink/72">{event.data.summary}</p>
+            {hasContent && (
+              <div class="prose-content mt-4 text-sm text-ink/70">
+                <Content />
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
     </div>
   </section>
+
+  <script>
+    const calendar = document.querySelector("[data-agenda-calendar]");
+
+    if (calendar) {
+      const months = Array.from(calendar.querySelectorAll<HTMLElement>("[data-agenda-month]"));
+      const title = calendar.querySelector<HTMLElement>("[data-agenda-title]");
+      const previousButton = calendar.querySelector<HTMLButtonElement>("[data-agenda-prev]");
+      const nextButton = calendar.querySelector<HTMLButtonElement>("[data-agenda-next]");
+      const popover = calendar.querySelector("[data-agenda-popover]");
+      const popoverContent = calendar.querySelector("[data-agenda-popover-content]");
+      const closeButton = calendar.querySelector("[data-agenda-close]");
+      const filters = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-agenda-filter]"));
+      const visibleKinds = new Set(["permanence", "event"]);
+      let activeMonth = 0;
+
+      const showMonth = (index: number) => {
+        activeMonth = Math.max(0, Math.min(index, months.length - 1));
+
+        months.forEach((month, monthIndex) => {
+          month.classList.toggle("is-active", monthIndex === activeMonth);
+        });
+
+        if (title) title.textContent = months[activeMonth]?.getAttribute("data-month-title") ?? "";
+        if (previousButton) previousButton.disabled = activeMonth === 0;
+        if (nextButton) nextButton.disabled = activeMonth === months.length - 1;
+      };
+
+      const closePopover = () => {
+        popover?.classList.add("hidden");
+        if (popoverContent) popoverContent.innerHTML = "";
+      };
+
+      const updateVisibleEntries = () => {
+        calendar.querySelectorAll<HTMLElement>("[data-agenda-kind]").forEach((entry) => {
+          entry.hidden = !visibleKinds.has(entry.dataset.agendaKind ?? "");
+        });
+
+        calendar.querySelectorAll<HTMLElement>(".agenda-day").forEach((day) => {
+          const hasVisibleEntry = Boolean(day.querySelector("[data-agenda-kind]:not([hidden])"));
+          const hasEntry = Boolean(day.querySelector("[data-agenda-kind]"));
+          day.classList.toggle("is-filtered-empty", hasEntry && !hasVisibleEntry);
+        });
+      };
+
+      previousButton?.addEventListener("click", () => {
+        showMonth(activeMonth - 1);
+        closePopover();
+      });
+
+      nextButton?.addEventListener("click", () => {
+        showMonth(activeMonth + 1);
+        closePopover();
+      });
+
+      closeButton?.addEventListener("click", closePopover);
+
+      filters.forEach((filter) => {
+        filter.addEventListener("click", () => {
+          const kind = filter.dataset.agendaFilter;
+          if (!kind) return;
+
+          if (visibleKinds.has(kind)) {
+            visibleKinds.delete(kind);
+          } else {
+            visibleKinds.add(kind);
+          }
+
+          filter.setAttribute("aria-pressed", String(visibleKinds.has(kind)));
+          closePopover();
+          updateVisibleEntries();
+        });
+      });
+
+      calendar.addEventListener("click", (event) => {
+        const trigger = event.target instanceof Element ? event.target.closest("[data-agenda-detail]") : null;
+        if (!trigger || !(trigger instanceof HTMLElement)) return;
+
+        const detail = document.getElementById(trigger.dataset.agendaDetail ?? "");
+        if (!detail || !popoverContent || !popover) return;
+
+        popoverContent.innerHTML = detail.innerHTML;
+        popover.classList.remove("hidden");
+        popover.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      });
+
+      showMonth(0);
+      updateVisibleEntries();
+    }
+  </script>
 </BaseLayout>

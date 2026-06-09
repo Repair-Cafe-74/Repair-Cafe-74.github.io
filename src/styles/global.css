@@ -82,6 +82,10 @@ a {
   display: none;
 }
 
+.agenda-mobile-week {
+  display: none;
+}
+
 .agenda-popover-close + .agenda-popover-content {
   margin-top: -2.25rem;
   padding-right: 3rem;
@@ -89,6 +93,7 @@ a {
 
 @media (max-width: 767px) {
   .agenda-weekdays,
+  .agenda-week-number,
   .agenda-empty-day {
     display: none;
   }
@@ -119,6 +124,10 @@ a {
   .agenda-mobile-weekday {
     display: inline;
     text-transform: capitalize;
+  }
+
+  .agenda-mobile-week {
+    display: inline;
   }
 
   .agenda-entry {

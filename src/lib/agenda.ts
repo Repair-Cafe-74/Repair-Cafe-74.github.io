@@ -17,6 +17,12 @@ export type AgendaMonth = {
   key: string;
   titleDate: Date;
   days: CalendarDay[];
+  weeks: CalendarWeek[];
+};
+
+export type CalendarWeek = {
+  weekNumber: number;
+  days: CalendarDay[];
 };
 
 export type CalendarDay = {
@@ -78,7 +84,7 @@ const isSameDay = (date: Date, other: Date) =>
   date.getMonth() === other.getMonth() &&
   date.getDate() === other.getDate();
 
-const isoWeekNumber = (date: Date) => {
+export const getIsoWeekNumber = (date: Date) => {
   const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
   const day = utcDate.getUTCDay() || 7;
   utcDate.setUTCDate(utcDate.getUTCDate() + 4 - day);
@@ -197,7 +203,7 @@ const ruleAppliesToDate = (rule: RecurrenceRule, date: Date) => {
   if (rule.excludedMonths?.has(date.getMonth())) return false;
   if (rule.monthParity === "even" && (date.getMonth() + 1) % 2 !== 0) return false;
   if (rule.monthParity === "odd" && (date.getMonth() + 1) % 2 !== 1) return false;
-  if (rule.evenWeek && isoWeekNumber(date) % 2 !== 0) return false;
+  if (rule.evenWeek && getIsoWeekNumber(date) % 2 !== 0) return false;
 
   if (rule.weekly) return true;
 
@@ -293,10 +299,21 @@ export const buildAgendaMonths = (entries: AgendaEntry[], now = new Date()) => {
       days.push({ date: null, entries: [] });
     }
 
+    const weeks = Array.from({ length: days.length / 7 }, (_, index) => {
+      const weekDays = days.slice(index * 7, index * 7 + 7);
+      const weekDate = weekDays.find((day) => day.date)?.date ?? firstDay;
+
+      return {
+        weekNumber: getIsoWeekNumber(weekDate),
+        days: weekDays,
+      };
+    });
+
     months.push({
       key: `${firstDay.getFullYear()}-${String(firstDay.getMonth() + 1).padStart(2, "0")}`,
       titleDate: firstDay,
       days,
+      weeks,
     });
   }
 

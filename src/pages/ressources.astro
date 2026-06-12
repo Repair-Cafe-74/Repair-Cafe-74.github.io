@@ -8,7 +8,7 @@ const resources = (await getCollection("resources")).sort((a, b) => a.data.order
 ---
 
 <BaseLayout title="Ressources">
-  <PageHeader eyebrow="Ressources" title="Documents utiles." description="Les PDF pourront être ajoutés dans Decap CMS puis téléchargés depuis cette page." />
+  <PageHeader eyebrow="Ressources" title="Tutoriels pour réparer soi-même !" description="Trouvez-ici des tutoriels créés par nos bénévoles pour réparer soi-même vos objets." />
   <section class="mx-auto grid max-w-4xl gap-4 px-4 sm:px-6 lg:px-8">
     {resources.map(async (resource) => {
       const { Content } = await resource.render();

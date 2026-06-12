@@ -1,6 +1,9 @@
 name: Deploy Astro to GitHub Pages
 
 on:
+  schedule:
+    - cron: '0 1 * * *'
+      timezone: "Europe/Paris"
   push:
     branches:
       - main

@@ -10,4 +10,4 @@ Atelier hebdomadaire.
 
 L'entrée se trouve derrière le bâtiment.
 
-![Plan Argonay Salle de Poterie](../../../public/images/photos/Plan-accès-Argonay-SallePoterie.png "Plan Argonay Salle de Poterie")
+![Plan Argonay Salle de Poterie](../../../public/images/plans/Plan-accès-Argonay-SallePoterie.png "Plan Argonay Salle de Poterie")

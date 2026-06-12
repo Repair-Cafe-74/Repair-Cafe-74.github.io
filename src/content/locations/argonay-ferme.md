@@ -8,4 +8,4 @@ hours: "3e samedi matin de chaque mois, 8h30-12h, sauf juillet et août"
 
 L'espace culturel La Ferme se situe au centre du village, entre la pharmacie et l'EHPAD.
 
-![Plan Argonay La Ferme](../../../public/images/photos/Plan-accès-Argonay-LaFerme.jpg "Plan Argonay La Ferme")
+![Plan Argonay La Ferme](../../../public/images/plans/Plan-accès-Argonay-LaFerme.jpg "Plan Argonay La Ferme")

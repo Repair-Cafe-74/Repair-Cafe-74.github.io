@@ -14,4 +14,4 @@ Rejoindre ensuite l’entrée principale de l’IUT en remontant le parking, pui
 
 *INFORMATION* : La mise en place du plan VIGIPIRATE dans tous les bâtiments publics impose d’entrer dans l’IUT uniquement via son hall d’accueil (voir repère E sur le plan ci-dessous). Un fléchage pour rejoindre la salle C170 vous guidera depuis le hall d’accueil.
 
-![Plan IUT Annecy-le-Vieux](../../../public/images/photos/Plan-accès-IUT-AnnecyLeVieux.png "Plan IUT Annecy-le-Vieux")
+![Plan IUT Annecy-le-Vieux](../../../public/images/plans/Plan-accès-IUT-AnnecyLeVieux.png "Plan IUT Annecy-le-Vieux")

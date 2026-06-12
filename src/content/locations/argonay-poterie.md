@@ -9,3 +9,5 @@ hours: "Tous les jeudis, 18h-21h"
 Atelier hebdomadaire. 
 
 L'entrée se trouve derrière le bâtiment.
+
+![Plan Argonay Salle de Poterie](../../../public/images/photos/Plan-accès-Argonay-SallePoterie.png "Plan Argonay Salle de Poterie")

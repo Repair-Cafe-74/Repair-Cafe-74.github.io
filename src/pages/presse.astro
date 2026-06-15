@@ -13,7 +13,7 @@ const pressItems = await Promise.all(links.map(async (item) => ({
 ---
 
 <BaseLayout title="Presse">
-  <PageHeader eyebrow="Presse" title="Ils parlent de nous." description="Articles, mentions et partenaires pourront être ajoutés au fil de l'eau." />
+  <PageHeader eyebrow="Presse" title="Ils parlent de nous." description="Articles de presse, interviews et autres qui parlent des Repair Cafés de Haute-Savoie." />
   <section class="mx-auto grid max-w-4xl gap-4 px-4 sm:px-6 lg:px-8">
     {pressItems.map(({ item, hasContent, Content }) => (
       <article class="rounded-md border border-ink/10 bg-white p-5 shadow-sm">

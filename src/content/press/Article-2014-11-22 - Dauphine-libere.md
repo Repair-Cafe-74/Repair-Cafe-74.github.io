@@ -1,7 +1,6 @@
 ---
 title: "La commune ouvre son Repair Café pour réparer les objets usuels"
-url: "https://example.com/mairie-repair-cafe"
-source: "Annecy-Le-Vieux"
+source: "Le Dauphiné Libéré"
 date: "2014-11-22"
 ---
 

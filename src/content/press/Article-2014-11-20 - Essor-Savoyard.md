@@ -1,7 +1,6 @@
 ---
 title: "La commune ouvre son Repair Café"
-url: "https://example.com/mairie-repair-cafe"
-source: "Annecy-Le-Vieux"
+source: "L'Essor Savoyard"
 date: "2014-11-20"
 ---
 

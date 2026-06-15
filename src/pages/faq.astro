@@ -7,7 +7,7 @@ const items = (await getCollection("faq")).sort((a, b) => a.data.order - b.data.
 ---
 
 <BaseLayout title="FAQ">
-  <PageHeader eyebrow="FAQ" title="Questions fréquentes." description="Une FAQ simple, statique et entièrement éditable depuis le CMS." />
+  <PageHeader eyebrow="FAQ" title="Questions fréquentes." description="Si vous ne trouvez pas la réponse à votre question, n'hésitez pas à nous contacter." />
   <section class="mx-auto grid max-w-4xl gap-4 px-4 sm:px-6 lg:px-8">
     {items.map(async (item) => {
       const { Content } = await item.render();

@@ -22,7 +22,7 @@ const press = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(),
-    url: z.string().url(),
+    url: z.string().url().optional(),
     source: z.string(),
     date: z.coerce.date(),
   }),

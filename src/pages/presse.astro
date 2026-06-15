@@ -5,19 +5,46 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
 
 const links = (await getCollection("press")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const pressItems = await Promise.all(links.map(async (item) => ({
+  item,
+  hasContent: (item.body?.trim().length ?? 0) > 0,
+  ...(await item.render()),
+})));
 ---
 
 <BaseLayout title="Presse">
   <PageHeader eyebrow="Presse" title="Ils parlent de nous." description="Articles, mentions et partenaires pourront être ajoutés au fil de l'eau." />
   <section class="mx-auto grid max-w-4xl gap-4 px-4 sm:px-6 lg:px-8">
-    {links.map((item) => (
+    {pressItems.map(({ item, hasContent, Content }) => (
       <article class="rounded-md border border-ink/10 bg-white p-5 shadow-sm">
         <p class="text-sm text-ink/60">{item.data.source} - {new Intl.DateTimeFormat("fr-FR", { dateStyle: "long" }).format(item.data.date)}</p>
         <h2 class="mt-2 text-xl font-semibold">{item.data.title}</h2>
-        <a class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-moss hover:text-ink" href={item.data.url}>
-          Lire la mention
-          <ExternalLink size={16} aria-hidden="true" />
-        </a>
+        {(item.data.url || hasContent) && (
+          <div class="mt-4 space-y-4">
+            {item.data.url && (
+              <a
+                class="inline-flex items-center gap-2 text-sm font-semibold text-moss hover:text-ink"
+                href={item.data.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Lire la mention
+                <ExternalLink size={16} aria-hidden="true" />
+              </a>
+            )}
+            {hasContent && (
+              <details class="group">
+                <summary class="cursor-pointer text-sm font-semibold text-moss hover:text-ink">
+                  <span class="group-open:hidden">Afficher le contenu</span>
+                  <span class="hidden group-open:inline">Masquer le contenu</span>
+                </summary>
+                <div class="prose-content mt-4 text-sm text-ink/70">
+                  <Content />
+                </div>
+              </details>
+            )}
+          </div>
+        )}
       </article>
     ))}
   </section>

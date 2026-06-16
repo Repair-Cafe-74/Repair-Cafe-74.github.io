@@ -1,12 +1,24 @@
 ---
-import { CalendarDays, MapPinned, Recycle, Wrench } from "@lucide/astro";
+import { CalendarDays, MapPin, MapPinned, Recycle, Wrench } from "@lucide/astro";
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import EventCard from "../components/EventCard.astro";
+import { buildAgendaEntries } from "../lib/agenda";
 
-const events = (await getCollection("events"))
-  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf())
-  .slice(0, 2);
+const events = await getCollection("events");
+const locations = await getCollection("locations");
+const agendaEntries = buildAgendaEntries(events, locations).slice(0, 2);
+const eventMap = new Map(events.map((event) => [event.id, event]));
+const entries = agendaEntries.map((entry) => ({
+  entry,
+  event: entry.kind === "event" ? eventMap.get(entry.sourceId) : null,
+}));
+
+const dateFormatter = new Intl.DateTimeFormat("fr-FR", { dateStyle: "full" });
+const timeFormatter = new Intl.DateTimeFormat("fr-FR", { hour: "2-digit", minute: "2-digit" });
+
+const formatEntryTime = (entry: { startsAt: string | null; date: Date }) =>
+  entry.startsAt ? timeFormatter.format(entry.date) : "Horaire à confirmer";
 ---
 
 <BaseLayout title="Accueil">
@@ -57,9 +69,27 @@ const events = (await getCollection("events"))
         <a class="text-sm font-semibold text-moss hover:text-ink" href="/agenda">Tout l'agenda</a>
       </div>
       <div class="grid gap-5 md:grid-cols-2">
-        {events.map(async (event) => {
-          const { Content } = await event.render();
-          return <EventCard event={event}><Content /></EventCard>;
+        {entries.map(({ entry, event }) => {
+          if (entry.kind === "event" && event) {
+            return <EventCard event={event} />;
+          }
+
+          return (
+            <article class="rounded-md border border-ink/10 bg-white p-5 shadow-sm">
+              <p class="mb-3 flex items-center gap-2 text-sm font-semibold text-clay">
+                <CalendarDays size={17} aria-hidden="true" />
+                <time datetime={entry.date.toISOString()}>
+                  {dateFormatter.format(entry.date)}
+                </time>
+              </p>
+              <h2 class="text-xl font-semibold">{entry.title}</h2>
+              <p class="mt-2 flex items-center gap-2 text-sm text-ink/68">
+                <MapPin size={17} aria-hidden="true" />
+                {entry.location}
+              </p>
+              <p class="mt-4 text-sm font-semibold text-ink/72">{formatEntryTime(entry)}</p>
+            </article>
+          );
         })}
       </div>
     </div>

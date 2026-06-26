@@ -7,7 +7,7 @@ import PageHeader from "../components/PageHeader.astro";
 const resources = (await getCollection("resources")).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<BaseLayout title="Ressources">
+<BaseLayout title="Ressources" description="Tutoriels créés par nos bénévoles pour réparer soi-même ses objets.">
   <PageHeader eyebrow="Ressources" title="Tutoriels pour réparer soi-même !" description="Trouvez-ici des tutoriels créés par nos bénévoles pour réparer soi-même vos objets." />
   <section class="mx-auto grid max-w-4xl gap-4 px-4 sm:px-6 lg:px-8">
     {resources.map(async (resource) => {

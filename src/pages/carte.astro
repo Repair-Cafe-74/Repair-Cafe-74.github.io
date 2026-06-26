@@ -10,7 +10,7 @@ const detailIdForLocation = (id: string) => `location-details-${id.replace(/[^a-
 const hasLocationDetails = (location: (typeof locations)[number]) => (location.body?.trim().length ?? 0) > 0;
 ---
 
-<BaseLayout title="Carte">
+<BaseLayout title="Carte" description="Trouvez tous les Repair Cafés de Haute-Savoie.">
   <PageHeader eyebrow="Carte" title="Où nous trouver ?" description="Trouvez ici tous les Repair Cafés de Haute-Savoie." />
   <section class="mx-auto grid max-w-6xl gap-8 px-4 sm:px-6 lg:px-8">
     <LocationMap locations={locations} />

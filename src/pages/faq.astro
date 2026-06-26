@@ -6,7 +6,7 @@ import PageHeader from "../components/PageHeader.astro";
 const items = (await getCollection("faq")).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<BaseLayout title="FAQ">
+<BaseLayout title="FAQ" description="Des réponses à toutes vos questions sur le Repair Café 74 et les Repair Cafés de Haute-Savoie.">
   <PageHeader eyebrow="FAQ" title="Questions fréquentes." description="Si vous ne trouvez pas la réponse à votre question, n'hésitez pas à nous contacter." />
   <section class="mx-auto grid max-w-4xl gap-4 px-4 sm:px-6 lg:px-8">
     {items.map(async (item) => {

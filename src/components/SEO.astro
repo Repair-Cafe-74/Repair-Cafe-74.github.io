@@ -1,0 +1,78 @@
+---
+import { SITE } from "../config/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = SITE.defaultTitle,
+  description = SITE.description,
+  image = SITE.defaultImage,
+  noindex = false
+} = Astro.props;
+
+const pageTitle =
+  title === SITE.defaultTitle
+    ? SITE.defaultTitle
+    : `${title} - ${SITE.name}`;
+
+const canonical = new URL(Astro.url.pathname, SITE.url).toString();
+
+const imageUrl = new URL(image, SITE.url).toString();
+---
+
+<title>{pageTitle}</title>
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="description" content={description} />
+<meta name="author" content={SITE.author} />
+
+<link rel="canonical" href={canonical} />
+
+<meta
+  name="robots"
+  content={noindex ? "noindex,nofollow" : "index,follow"}
+/>
+
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:locale" content={SITE.locale} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+
+<meta name="theme-color" content="#2E7D32" />
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE.name,
+    url: SITE.url
+  })}
+/>
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: SITE.name,
+    url: SITE.url
+  })}
+/>

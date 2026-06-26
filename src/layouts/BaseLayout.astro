@@ -1,16 +1,14 @@
 ---
 import "../styles/global.css";
 import { CalendarDays, HandHeart, MapPinned, Menu } from "@lucide/astro";
+import SEO from "../components/SEO.astro";
 
-type Props = {
-  title: string;
+interface Props {
+  title?: string;
   description?: string;
-};
+}
 
-const {
-  title,
-  description = "Repair Café 74 aide les habitantes et habitants de Haute-Savoie à réparer, apprendre et prolonger la vie des objets.",
-} = Astro.props;
+const { title, description } = Astro.props;
 
 const navItems = [
   ["L'association", "/association"],
@@ -27,14 +25,8 @@ const navItems = [
 <!doctype html>
 <html lang="fr">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
-    <meta property="og:title" content={`${title} - Repair Café 74`} />
-    <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <title>{title} - Repair Café 74</title>
+    <SEO title={title} description={description}/>
+    <meta name="generator" content={Astro.generator} />
   </head>
   <body class="min-h-screen text-ink antialiased">
     <a class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-paper focus:px-4 focus:py-2" href="#contenu">

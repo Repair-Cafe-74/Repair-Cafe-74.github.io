@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://repair-cafe-74.github.io/sitemap-index.xml

@@ -1,6 +1,6 @@
 export const SITE = {
     name: "Repair Café 74",
-    url: "https://repair-cafe-74.github.io",
+    url: "https://www.repaircafe74.fr",
   
     defaultTitle: "Repair Café 74",
   

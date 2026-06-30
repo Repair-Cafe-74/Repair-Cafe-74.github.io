@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import { CalendarDays, ChevronLeft, ChevronRight, Clock, MapPin, X } from "@lucide/astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
-import { buildAgendaEntries, buildAgendaMonths } from "../lib/agenda";
+import { agendaTimeZone, buildAgendaEntries, buildAgendaMonths } from "../lib/agenda";
 
 const events = (await getCollection("events")).sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
 const permanences = (await getCollection("permanences")).sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
@@ -15,17 +15,28 @@ const upcomingEvents = events.filter((event) => entries.some((entry) => entry.ki
 const upcomingPermanences = permanences.filter((permanence) =>
   entries.some((entry) => entry.sourceId === permanence.id && entry.detailId.startsWith("agenda-permanence-")),
 );
+const eventStartTimes = new Map(
+  entries
+    .filter((entry) => entry.kind === "event")
+    .map((entry) => [entry.sourceId, entry.startsAt]),
+);
+const permanenceStartTimes = new Map(
+  entries
+    .filter((entry) => entry.detailId.startsWith("agenda-permanence-"))
+    .map((entry) => [entry.sourceId, entry.startsAt]),
+);
 
-const monthFormatter = new Intl.DateTimeFormat("fr-FR", { month: "long", year: "numeric" });
-const weekdayFormatter = new Intl.DateTimeFormat("fr-FR", { weekday: "short" });
-const fullDateFormatter = new Intl.DateTimeFormat("fr-FR", { dateStyle: "full" });
-const timeFormatter = new Intl.DateTimeFormat("fr-FR", { hour: "2-digit", minute: "2-digit" });
+const monthFormatter = new Intl.DateTimeFormat("fr-FR", { month: "long", timeZone: agendaTimeZone, year: "numeric" });
+const weekdayFormatter = new Intl.DateTimeFormat("fr-FR", { timeZone: agendaTimeZone, weekday: "short" });
+const fullDateFormatter = new Intl.DateTimeFormat("fr-FR", { dateStyle: "full", timeZone: agendaTimeZone });
 const weekdays = Array.from({ length: 7 }, (_, index) => {
   const date = new Date(Date.UTC(2026, 5, 1 + index));
   return weekdayFormatter.format(date);
 });
 
-const formatEntryTime = (date: Date, startsAt: string | null) => startsAt ? timeFormatter.format(date) : "Horaire à confirmer";
+const formatEntryTime = (startsAt: string | null) => startsAt ?? "Horaire à confirmer";
+const formatEntryDateTime = (date: Date, startsAt: string | null) =>
+  startsAt ? `${fullDateFormatter.format(date)} à ${startsAt}` : fullDateFormatter.format(date);
 const formatEntryTitle = (entry: (typeof entries)[number]) => {
   if (entry.kind !== "permanence") return entry.title;
 
@@ -124,7 +135,7 @@ const permanenceDetails = await Promise.all(upcomingPermanences.map(async (perma
                               >
                                 <span class="flex items-center gap-1.5 text-xs font-semibold">
                                   <Clock size={13} aria-hidden="true" />
-                                  {formatEntryTime(entry.date, entry.startsAt)}
+                                  {formatEntryTime(entry.startsAt)}
                                 </span>
                                 <span class="mt-1 block text-sm font-semibold leading-snug">{formatEntryTitle(entry)}</span>
                                 {entry.kind === "event" && entry.location && <span class="mt-1 block text-xs leading-snug text-paper/88">{entry.location}</span>}
@@ -174,7 +185,7 @@ const permanenceDetails = await Promise.all(upcomingPermanences.map(async (perma
             <h3 class="text-2xl font-semibold">{event.data.title}</h3>
             <p class="mt-4 flex items-start gap-2 text-sm font-semibold text-ink/80">
               <CalendarDays class="mt-0.5 shrink-0 text-clay" size={17} aria-hidden="true" />
-              <time datetime={event.data.date.toISOString()}>{fullDateFormatter.format(event.data.date)} à {timeFormatter.format(event.data.date)}</time>
+              <time datetime={event.data.date.toISOString()}>{formatEntryDateTime(event.data.date, eventStartTimes.get(event.id) ?? null)}</time>
             </p>
             <p class="mt-2 flex items-start gap-2 text-sm leading-6 text-ink/70">
               <MapPin class="mt-0.5 shrink-0 text-clay" size={17} aria-hidden="true" />
@@ -195,7 +206,7 @@ const permanenceDetails = await Promise.all(upcomingPermanences.map(async (perma
             <h3 class="text-2xl font-semibold">{title}</h3>
             <p class="mt-4 flex items-start gap-2 text-sm font-semibold text-ink/80">
               <CalendarDays class="mt-0.5 shrink-0 text-leaf" size={17} aria-hidden="true" />
-              <time datetime={permanence.data.date.toISOString()}>{fullDateFormatter.format(permanence.data.date)} à {timeFormatter.format(permanence.data.date)}</time>
+              <time datetime={permanence.data.date.toISOString()}>{formatEntryDateTime(permanence.data.date, permanenceStartTimes.get(permanence.id) ?? null)}</time>
             </p>
             {address && (
               <p class="mt-2 flex items-start gap-2 text-sm leading-6 text-ink/70">

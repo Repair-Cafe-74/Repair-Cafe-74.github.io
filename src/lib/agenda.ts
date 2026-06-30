@@ -34,6 +34,42 @@ type LocationEntry = CollectionEntry<"locations">;
 type EventEntry = CollectionEntry<"events">;
 type PermanenceEntry = CollectionEntry<"permanences">;
 
+export const agendaTimeZone = "Europe/Paris";
+
+const agendaDatePartsFormatter = new Intl.DateTimeFormat("fr-FR", {
+  timeZone: agendaTimeZone,
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
+
+const agendaTimePartsFormatter = new Intl.DateTimeFormat("fr-FR", {
+  timeZone: agendaTimeZone,
+  hour: "2-digit",
+  minute: "2-digit",
+  hourCycle: "h23",
+});
+
+const getAgendaDateParts = (date: Date) => {
+  const parts = Object.fromEntries(
+    agendaDatePartsFormatter.formatToParts(date).map((part) => [part.type, part.value]),
+  );
+
+  return {
+    year: Number(parts.year),
+    month: Number(parts.month),
+    day: Number(parts.day),
+  };
+};
+
+export const getAgendaTime = (date: Date) => {
+  const parts = Object.fromEntries(
+    agendaTimePartsFormatter.formatToParts(date).map((part) => [part.type, part.value]),
+  );
+
+  return `${parts.hour}:${parts.minute}`;
+};
+
 const dayIndexes = new Map([
   ["lundi", 1],
   ["mardi", 2],
@@ -80,10 +116,16 @@ const normalize = (value: string) =>
 
 const detailId = (prefix: string, id: string) => `${prefix}-${id.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
 
-const isSameDay = (date: Date, other: Date) =>
-  date.getFullYear() === other.getFullYear() &&
-  date.getMonth() === other.getMonth() &&
-  date.getDate() === other.getDate();
+const isSameDay = (date: Date, other: Date) => {
+  const dateParts = getAgendaDateParts(date);
+  const otherParts = getAgendaDateParts(other);
+
+  return (
+    dateParts.year === otherParts.year &&
+    dateParts.month === otherParts.month &&
+    dateParts.day === otherParts.day
+  );
+};
 
 export const getIsoWeekNumber = (date: Date) => {
   const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
@@ -220,8 +262,7 @@ const ruleAppliesToDate = (rule: RecurrenceRule, date: Date) => {
   return false;
 };
 
-const startTimeFromDate = (date: Date) =>
-  parseStartTime(`${date.getHours()}h${String(date.getMinutes()).padStart(2, "0")}-`);
+const startTimeFromDate = (date: Date) => getAgendaTime(date);
 
 const getPeriod = (now = new Date()) => {
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());

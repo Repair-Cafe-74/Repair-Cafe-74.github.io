@@ -1,7 +1,7 @@
 ---
 import { CalendarDays, MapPin } from "@lucide/astro";
 import type { CollectionEntry } from "astro:content";
-import type { AgendaEntry } from "../lib/agenda";
+import { agendaTimeZone, type AgendaEntry } from "../lib/agenda";
 
 type Props = {
   entry: AgendaEntry;
@@ -12,8 +12,9 @@ type Props = {
 const { entry, event, permanence } = Astro.props;
 const formattedDate = new Intl.DateTimeFormat("fr-FR", {
   dateStyle: "full",
-  timeStyle: entry.startsAt ? "short" : undefined,
+  timeZone: agendaTimeZone,
 }).format(entry.date);
+const formattedDateTime = entry.startsAt ? `${formattedDate} à ${entry.startsAt}` : formattedDate;
 const title = entry.kind === "event" && event ? event.data.title : entry.title;
 const locationText = entry.kind === "event" && event ? event.data.location : entry.location;
 const description = entry.kind === "event" && event
@@ -25,7 +26,7 @@ const label = entry.kind === "event" ? "Événement" : "Permanence";
 <article class="rounded-md border border-ink/10 bg-white p-5 shadow-sm">
   <p class="mb-3 flex items-center gap-2 text-sm font-semibold text-clay">
     <CalendarDays size={17} aria-hidden="true" />
-    <time datetime={entry.date.toISOString()}>{formattedDate}</time>
+    <time datetime={entry.date.toISOString()}>{formattedDateTime}</time>
   </p>
   <span class="inline-flex rounded-full bg-mist px-2 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-ink/70">
     {label}

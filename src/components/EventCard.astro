@@ -6,18 +6,19 @@ import type { AgendaEntry } from "../lib/agenda";
 type Props = {
   entry: AgendaEntry;
   event?: CollectionEntry<"events"> | null;
+  permanence?: CollectionEntry<"permanences"> | null;
 };
 
-const { entry, event } = Astro.props;
+const { entry, event, permanence } = Astro.props;
 const formattedDate = new Intl.DateTimeFormat("fr-FR", {
   dateStyle: "full",
-  timeStyle: entry.kind === "event" && entry.startsAt ? "short" : undefined,
+  timeStyle: entry.startsAt ? "short" : undefined,
 }).format(entry.date);
 const title = entry.kind === "event" && event ? event.data.title : entry.title;
 const locationText = entry.kind === "event" && event ? event.data.location : entry.location;
 const description = entry.kind === "event" && event
   ? event.data.summary
-  : "";
+  : permanence?.data.summary ?? "";
 const label = entry.kind === "event" ? "Événement" : "Permanence";
 ---
 
@@ -34,5 +35,5 @@ const label = entry.kind === "event" ? "Événement" : "Permanence";
     <MapPin size={17} aria-hidden="true" />
     {locationText}
   </p>
-  <p class="mt-4 leading-7 text-ink/72">{description}</p>
+  {description && <p class="mt-4 leading-7 text-ink/72">{description}</p>}
 </article>

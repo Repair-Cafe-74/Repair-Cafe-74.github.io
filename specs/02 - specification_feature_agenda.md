@@ -2,18 +2,19 @@
 
 ## Objectif
 
-La page Agenda affiche, sur les 12 prochains mois, deux familles d'evenements :
+La page Agenda affiche, sur les 12 prochains mois, trois familles d'evenements :
 
 - les permanences recurrentes des Repair Cafes, inferees depuis les fiches `locations` ;
+- les permanences ponctuelles, decrites dans les fiches `permanences` ;
 - les evenements ponctuels, decrits dans les fiches `events`.
 
 L'affichage est un calendrier mensuel navigable.
 
 ## Sources de donnees
 
-### Permanences
+### Permanences recurrentes
 
-Les permanences sont generees depuis la collection `locations`.
+Les permanences recurrentes sont generees depuis la collection `locations`.
 
 Champs utilises :
 
@@ -22,6 +23,21 @@ Champs utilises :
 - `hours` : texte utilise pour inferer les occurrences ;
 - `link` : lien optionnel affiche dans la bulle ;
 - contenu Markdown de la fiche : texte complementaire affiche dans la bulle s'il est disponible.
+
+### Permanences ponctuelles
+
+Les permanences ponctuelles sont lues depuis la collection `permanences`.
+
+Champs utilises :
+
+- `date` : date et heure de la session ;
+- `repairCafe` : slug optionnel d'une fiche `locations` ;
+- `title` : titre affiche, obligatoire si `repairCafe` est absent, sinon surcharge optionnelle ;
+- `location` : adresse affichee, obligatoire si `repairCafe` est absent, sinon surcharge optionnelle ;
+- `summary` : resume affiche dans la bulle ;
+- contenu Markdown de la fiche : texte complementaire affiche dans la bulle s'il est disponible.
+
+Si `repairCafe` est renseigne, le nom et l'adresse du Repair Cafe sont repris depuis la fiche `locations`, sauf surcharge via `title` ou `location`.
 
 ### Evenements ponctuels
 
@@ -96,13 +112,23 @@ Pour un evenement ponctuel, l'entree affiche :
 
 Au clic sur une entree du calendrier, une bulle s'affiche au-dessus du calendrier.
 
-Pour une permanence, la bulle affiche les informations de la fiche `location` :
+Pour une permanence recurrente, la bulle affiche les informations de la fiche `location` :
 
 - nom ;
 - adresse ;
 - horaires ;
 - lien optionnel ;
 - contenu Markdown, s'il est disponible.
+
+Pour une permanence ponctuelle, la bulle affiche les informations de la fiche `permanence` :
+
+- nom (depuis `title` ou la fiche `location` liee) ;
+- date complete et heure ;
+- adresse (depuis `location` ou la fiche `location` liee) ;
+- horaires recurrents et lien web de la fiche `location` liee, si `repairCafe` est renseigne ;
+- resume ;
+- contenu Markdown de la permanence, s'il est disponible ;
+- contenu Markdown de la fiche `location` liee, s'il est disponible.
 
 Pour un evenement ponctuel, la bulle affiche les informations de la fiche `event` :
 
@@ -126,7 +152,7 @@ La logique de generation est centralisee dans `src/lib/agenda.ts`.
 
 La page `src/pages/agenda.astro` :
 
-- charge les collections `events` et `locations` ;
+- charge les collections `events`, `locations` et `permanences` ;
 - genere les occurrences ;
 - construit les 12 mois ;
 - rend les templates de detail cote serveur ;

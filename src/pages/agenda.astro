@@ -6,10 +6,15 @@ import PageHeader from "../components/PageHeader.astro";
 import { buildAgendaEntries, buildAgendaMonths } from "../lib/agenda";
 
 const events = (await getCollection("events")).sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+const permanences = (await getCollection("permanences")).sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
 const locations = (await getCollection("locations")).sort((a, b) => a.data.name.localeCompare(b.data.name, "fr"));
-const entries = buildAgendaEntries(events, locations);
+const locationMap = new Map(locations.map((location) => [location.id, location]));
+const entries = buildAgendaEntries(events, locations, permanences);
 const calendarMonths = buildAgendaMonths(entries);
 const upcomingEvents = events.filter((event) => entries.some((entry) => entry.kind === "event" && entry.sourceId === event.id));
+const upcomingPermanences = permanences.filter((permanence) =>
+  entries.some((entry) => entry.sourceId === permanence.id && entry.detailId.startsWith("agenda-permanence-")),
+);
 
 const monthFormatter = new Intl.DateTimeFormat("fr-FR", { month: "long", year: "numeric" });
 const weekdayFormatter = new Intl.DateTimeFormat("fr-FR", { weekday: "short" });
@@ -38,6 +43,22 @@ const locationDetails = await Promise.all(locations.map(async (location) => ({
   hasContent: (location.body?.trim().length ?? 0) > 0,
   ...(await location.render()),
 })));
+const permanenceDetails = await Promise.all(upcomingPermanences.map(async (permanence) => {
+  const linkedLocation = permanence.data.repairCafe ? locationMap.get(permanence.data.repairCafe) : undefined;
+  const linkedLocationRender = linkedLocation ? await linkedLocation.render() : null;
+  const permanenceRender = await permanence.render();
+
+  return {
+    permanence,
+    linkedLocation,
+    LinkedLocationContent: linkedLocationRender?.Content ?? null,
+    linkedLocationHasContent: (linkedLocation?.body?.trim().length ?? 0) > 0,
+    title: permanence.data.title ?? linkedLocation?.data.name ?? "",
+    address: permanence.data.location ?? linkedLocation?.data.address ?? "",
+    hasContent: (permanence.body?.trim().length ?? 0) > 0,
+    Content: permanenceRender.Content,
+  };
+}));
 ---
 
 <BaseLayout title="Agenda" description="Retrouvez les permanences des Repair Cafés de Haute-Savoie et autres événements des 12 prochains mois.">
@@ -163,6 +184,47 @@ const locationDetails = await Promise.all(locations.map(async (location) => ({
             {hasContent && (
               <div class="prose-content mt-4 text-sm text-ink/70">
                 <Content />
+              </div>
+            )}
+          </article>
+        ))}
+
+        {permanenceDetails.map(({ permanence, linkedLocation, LinkedLocationContent, linkedLocationHasContent, title, address, Content, hasContent }) => (
+          <article id={`agenda-permanence-${permanence.id.replace(/[^a-zA-Z0-9_-]/g, "-")}`} class="agenda-detail-template">
+            <p class="mb-3 inline-flex rounded bg-leaf/12 px-2 py-1 text-xs font-semibold uppercase text-leaf">Permanence</p>
+            <h3 class="text-2xl font-semibold">{title}</h3>
+            <p class="mt-4 flex items-start gap-2 text-sm font-semibold text-ink/80">
+              <CalendarDays class="mt-0.5 shrink-0 text-leaf" size={17} aria-hidden="true" />
+              <time datetime={permanence.data.date.toISOString()}>{fullDateFormatter.format(permanence.data.date)} à {timeFormatter.format(permanence.data.date)}</time>
+            </p>
+            {address && (
+              <p class="mt-2 flex items-start gap-2 text-sm leading-6 text-ink/70">
+                <MapPin class="mt-0.5 shrink-0 text-clay" size={17} aria-hidden="true" />
+                {address}
+              </p>
+            )}
+            {linkedLocation && (
+              <p class="mt-2 flex items-start gap-2 text-sm font-semibold text-ink/80">
+                <Clock class="mt-0.5 shrink-0 text-leaf" size={17} aria-hidden="true" />
+                {linkedLocation.data.hours}
+              </p>
+            )}
+            {linkedLocation?.data.link && (
+              <a class="mt-4 inline-flex text-sm font-semibold text-moss hover:text-ink" href={linkedLocation.data.link} target="_blank" rel="noreferrer">
+                Site web
+              </a>
+            )}
+            {permanence.data.summary && (
+              <p class="mt-4 leading-7 text-ink/72">{permanence.data.summary}</p>
+            )}
+            {hasContent && (
+              <div class="prose-content mt-4 text-sm text-ink/70">
+                <Content />
+              </div>
+            )}
+            {LinkedLocationContent && linkedLocationHasContent && (
+              <div class="prose-content mt-5 text-sm text-ink/75">
+                <LinkedLocationContent />
               </div>
             )}
           </article>

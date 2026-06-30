@@ -25,7 +25,8 @@ Le proxy local Decap écrit directement dans les fichiers Markdown du dépôt. L
 
 ## Collections de contenu
 
-- `src/content/events` : agenda des ateliers
+- `src/content/events` : événements ponctuels de l'agenda
+- `src/content/permanences` : permanences ponctuelles de l'agenda
 - `src/content/locations` : lieux affichés sur la carte
 - `src/content/faq` : questions fréquentes
 - `src/content/resources` : ressources PDF

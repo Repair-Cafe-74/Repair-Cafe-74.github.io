@@ -32,6 +32,7 @@ export type CalendarDay = {
 
 type LocationEntry = CollectionEntry<"locations">;
 type EventEntry = CollectionEntry<"events">;
+type PermanenceEntry = CollectionEntry<"permanences">;
 
 const dayIndexes = new Map([
   ["lundi", 1],
@@ -219,6 +220,9 @@ const ruleAppliesToDate = (rule: RecurrenceRule, date: Date) => {
   return false;
 };
 
+const startTimeFromDate = (date: Date) =>
+  parseStartTime(`${date.getHours()}h${String(date.getMinutes()).padStart(2, "0")}-`);
+
 const getPeriod = (now = new Date()) => {
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const firstMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -230,24 +234,45 @@ const getPeriod = (now = new Date()) => {
 export const buildAgendaEntries = (
   events: EventEntry[],
   locations: LocationEntry[],
+  permanences: PermanenceEntry[] = [],
   now = new Date(),
 ) => {
   const { today, firstMonth, end } = getPeriod(now);
   const entries: AgendaEntry[] = [];
-
+  const locationMap = new Map(locations.map((location) => [location.id, location]));
+  
   for (const event of events) {
     if (event.data.date >= today && event.data.date < end) {
       entries.push({
         id: `event-${event.id}`,
         kind: "event",
         date: event.data.date,
-        startsAt: parseStartTime(`${event.data.date.getHours()}h${String(event.data.date.getMinutes()).padStart(2, "0")}-`),
+        startsAt: startTimeFromDate(event.data.date),
         title: event.data.title,
         location: event.data.location,
         detailId: detailId("agenda-event", event.id),
         sourceId: event.id,
       });
     }
+  }
+
+  for (const permanence of permanences) {
+    if (permanence.data.date < today || permanence.data.date >= end) continue;
+
+    const linkedLocation = permanence.data.repairCafe
+      ? locationMap.get(permanence.data.repairCafe)
+      : undefined;
+
+    entries.push({
+      id: `permanence-oneoff-${permanence.id}`,
+      kind: "permanence",
+      date: permanence.data.date,
+      startsAt: startTimeFromDate(permanence.data.date),
+      title: permanence.data.title ?? linkedLocation?.data.name ?? "",
+      location: permanence.data.location ?? linkedLocation?.data.address,
+      detailId: detailId("agenda-permanence", permanence.id),
+      sourceId: permanence.id,
+    });
   }
 
   for (const location of locations) {

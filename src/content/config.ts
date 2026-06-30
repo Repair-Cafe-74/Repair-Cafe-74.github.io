@@ -62,4 +62,35 @@ const locations = defineCollection({
   }),
 });
 
-export const collections = { events, faq, press, resources, photos, locations };
+const permanences = defineCollection({
+  type: "content",
+  schema: z
+    .object({
+      date: z.coerce.date(),
+      repairCafe: z.string().optional(),
+      title: z.string().optional(),
+      location: z.string().optional(),
+      summary: z.string().optional(),
+    })
+    .superRefine((data, ctx) => {
+      if (data.repairCafe) return;
+
+      if (!data.title) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Le titre est obligatoire sans lien vers un Repair Café.",
+          path: ["title"],
+        });
+      }
+
+      if (!data.location) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Le lieu est obligatoire sans lien vers un Repair Café.",
+          path: ["location"],
+        });
+      }
+    }),
+});
+
+export const collections = { events, faq, press, resources, photos, locations, permanences };

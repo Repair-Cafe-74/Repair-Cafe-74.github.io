@@ -6,12 +6,15 @@ import EventCard from "../components/EventCard.astro";
 import { buildAgendaEntries } from "../lib/agenda";
 
 const events = await getCollection("events");
+const permanences = await getCollection("permanences");
 const locations = await getCollection("locations");
-const agendaEntries = buildAgendaEntries(events, locations).slice(0, 2);
+const agendaEntries = buildAgendaEntries(events, locations, permanences).slice(0, 2);
 const eventMap = new Map(events.map((event) => [event.id, event]));
+const permanenceMap = new Map(permanences.map((permanence) => [permanence.id, permanence]));
 const entries = agendaEntries.map((entry) => ({
   entry,
-  event: entry.kind === "event" ? eventMap.get(entry.sourceId) : null,
+  event: entry.kind === "event" ? eventMap.get(entry.sourceId) ?? null : null,
+  permanence: entry.detailId.startsWith("agenda-permanence-") ? permanenceMap.get(entry.sourceId) ?? null : null,
 }));
 ---
 
@@ -65,8 +68,8 @@ const entries = agendaEntries.map((entry) => ({
         <a class="text-sm font-semibold text-moss hover:text-ink" href="/agenda">Tout l'agenda</a>
       </div>
       <div class="grid gap-5 md:grid-cols-2">
-        {entries.map(({ entry, event }) => (
-          <EventCard entry={entry} event={event} />
+        {entries.map(({ entry, event, permanence }) => (
+          <EventCard entry={entry} event={event} permanence={permanence} />
         ))}
       </div>
     </div>

@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import { Download } from "@lucide/astro";
+import { Download, ExternalLink, Info } from "@lucide/astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
 
@@ -10,6 +10,26 @@ const resources = (await getCollection("resources")).sort((a, b) => a.data.order
 <BaseLayout title="Ressources" description="Tutoriels créés par nos bénévoles pour réparer soi-même ses objets.">
   <PageHeader eyebrow="Ressources" title="Tutoriels pour réparer soi-même !" description="Trouvez-ici des tutoriels créés par nos bénévoles pour réparer soi-même vos objets." />
   <section class="mx-auto grid max-w-4xl gap-4 px-4 sm:px-6 lg:px-8">
+    <aside class="rounded-md border border-moss/20 bg-mist/70 p-5 text-ink shadow-sm">
+      <div class="flex gap-4">
+        <Info class="mt-0.5 shrink-0 text-moss" size={22} aria-hidden="true" />
+        <div>
+          <h2 class="font-semibold">Bon à savoir</h2>
+          <p class="mt-2 leading-7 text-ink/72">
+            Le site officiel Repair Café propose aussi une sélection de tutoriels iFixit pour vous aider à diagnostiquer et réparer vos objets.
+          </p>
+          <a
+            class="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-moss hover:text-ink"
+            href="https://www.repaircafe.org/fr/community/tutoriels-de-reparation/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Voir les tutoriels iFixit
+            <ExternalLink size={16} aria-hidden="true" />
+          </a>
+        </div>
+      </div>
+    </aside>
     {resources.map(async (resource) => {
       const { Content } = await resource.render();
       return (

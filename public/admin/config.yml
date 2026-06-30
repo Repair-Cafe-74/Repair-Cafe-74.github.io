@@ -28,6 +28,8 @@ collections:
     label: "Permanences ponctuelles"
     folder: "src/content/permanences"
     create: true
+    identifier_field: "date"
+    summary: "{{date}} — {{repairCafe}}"
     slug: "{{slug}}"
     fields:
       - { label: "Date", name: "date", widget: "datetime" }
@@ -36,7 +38,7 @@ collections:
         widget: "relation"
         collection: "locations"
         search_fields: ["name"]
-        value_field: "{{slug}}"
+        value_field: "{{slug}}.md"
         display_fields: ["name"]
         required: false
         hint: "Si renseigné, le nom et l'adresse du Repair Café sont repris automatiquement."

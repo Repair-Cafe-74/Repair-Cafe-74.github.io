@@ -22,3 +22,5 @@ Nous ne réparons pas :
 - les voitures, motos, scooters
 - les appareils avec moteur à essence
 - les engins lourds ou encombrants de manière générale
+
+**Merci de nettoyer les objets avant de nous les apporter !**

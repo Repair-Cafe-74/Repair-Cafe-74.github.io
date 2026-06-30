@@ -7,4 +7,4 @@ hours: "1er samedi de chaque mois, 9h30-12h30, sauf juillet et août"
 link: https://ecrevis.eco
 ---
 
-Permanence consacrée uniquement à l'informatique.
+**Permanence consacrée uniquement à l'informatique.**

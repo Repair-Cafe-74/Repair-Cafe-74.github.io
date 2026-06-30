@@ -29,7 +29,7 @@ collections:
     folder: "src/content/permanences"
     create: true
     identifier_field: "date"
-    summary: "{{date}} — {{repairCafe}}"
+    summary: "{{date | date('YYYY-MM-DD')}} — {{repairCafe}} — {{location}} — {{title}}"
     slug: "{{slug}}"
     fields:
       - { label: "Date", name: "date", widget: "datetime" }

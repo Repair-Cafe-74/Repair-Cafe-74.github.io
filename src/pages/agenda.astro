@@ -138,7 +138,6 @@ const permanenceDetails = await Promise.all(upcomingPermanences.map(async (perma
                                   {formatEntryTime(entry.startsAt)}
                                 </span>
                                 <span class="mt-1 block text-sm font-semibold leading-snug">{formatEntryTitle(entry)}</span>
-                                {entry.kind === "event" && entry.location && <span class="mt-1 block text-xs leading-snug text-paper/88">{entry.location}</span>}
                               </button>
                             ))}
                           </div>

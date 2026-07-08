@@ -1,0 +1,34 @@
+@import "vanilla-cookieconsent/dist/cookieconsent.css";
+
+#cc-main {
+  --cc-font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --cc-bg: #fffaf2;
+  --cc-primary-color: #241832;
+  --cc-secondary-color: rgba(36, 24, 50, 0.72);
+  --cc-btn-primary-bg: #6631a5;
+  --cc-btn-primary-color: #fffaf2;
+  --cc-btn-primary-border-color: #6631a5;
+  --cc-btn-primary-hover-bg: #241832;
+  --cc-btn-primary-hover-color: #fffaf2;
+  --cc-btn-primary-hover-border-color: #241832;
+  --cc-btn-secondary-bg: #eef7e9;
+  --cc-btn-secondary-color: #241832;
+  --cc-btn-secondary-border-color: #eef7e9;
+  --cc-btn-secondary-hover-bg: #d9ead2;
+  --cc-btn-secondary-hover-color: #241832;
+  --cc-btn-secondary-hover-border-color: #d9ead2;
+  --cc-link-color: #6631a5;
+  --cc-toggle-on-bg: #6631a5;
+  --cc-toggle-off-bg: rgba(36, 24, 50, 0.35);
+  --cc-cookie-category-block-bg: #eef7e9;
+  --cc-cookie-category-block-border: rgba(36, 24, 50, 0.08);
+  --cc-cookie-category-block-hover-bg: #e4f0dc;
+  --cc-cookie-category-block-hover-border: rgba(36, 24, 50, 0.12);
+  --cc-separator-border-color: rgba(36, 24, 50, 0.1);
+  --cc-footer-bg: #eef7e9;
+  --cc-footer-color: rgba(36, 24, 50, 0.72);
+  --cc-footer-border-color: rgba(36, 24, 50, 0.1);
+  --cc-overlay-bg: rgba(36, 24, 50, 0.45);
+  --cc-modal-border-radius: 0.5rem;
+  --cc-btn-border-radius: 0.375rem;
+}

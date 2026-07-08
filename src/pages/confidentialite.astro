@@ -1,0 +1,106 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { SITE } from "../config/site";
+---
+
+<BaseLayout
+  title="Politique de confidentialité"
+  description="Informations sur la collecte de données et l'utilisation des cookies sur le site Repair Café 74."
+>
+  <PageHeader
+    eyebrow="Informations légales"
+    title="Politique de confidentialité"
+    description="Cette page décrit comment le site Repair Café 74 traite vos données personnelles et utilise des cookies."
+  />
+
+  <section class="mx-auto max-w-3xl px-4 pb-16 sm:px-6 lg:px-8">
+    <article class="prose-content rounded-md border border-ink/10 bg-white p-6 shadow-sm sm:p-8">
+      <p class="text-sm text-ink/60">Dernière mise à jour : juillet 2026</p>
+
+      <h2 class="mt-8 text-xl font-semibold">Responsable du traitement</h2>
+      <p>
+        Le site <a class="text-moss hover:text-ink" href={SITE.url}>{SITE.url}</a> est édité par
+        l'association <strong>Repair Café 74</strong>, association loi 1901.
+      </p>
+      <p>
+        Pour toute question relative à vos données personnelles, vous pouvez nous contacter à
+        l'adresse <a class="text-moss hover:text-ink" href="mailto:repaircafe74@gmail.com">repaircafe74@gmail.com</a>.
+      </p>
+
+      <h2 class="mt-8 text-xl font-semibold">Données collectées</h2>
+      <p>
+        Le site est principalement informatif. Nous ne collectons pas de données personnelles via
+        des formulaires d'inscription ou de création de compte.
+      </p>
+      <p>
+        En revanche, si vous nous contactez par e-mail ou par téléphone, nous traitons les
+        informations que vous nous communiquez volontairement (nom, coordonnées, contenu du
+        message) uniquement pour répondre à votre demande.
+      </p>
+
+      <h2 class="mt-8 text-xl font-semibold">Cookies et mesure d'audience</h2>
+      <p>
+        Lors de votre visite, des cookies peuvent être déposés sur votre terminal uniquement si
+        vous y consentez. Ces cookies servent à mesurer l'audience du site de manière anonyme via
+        Google Analytics 4, configuré via Google Tag Manager.
+      </p>
+      <p>
+        Sans votre consentement, aucun cookie de mesure d'audience n'est activé. Vous pouvez à
+        tout moment modifier votre choix en cliquant sur
+        <button
+          type="button"
+          class="text-moss underline hover:text-ink"
+          data-cc="show-preferencesModal"
+        >
+          Gérer mes cookies
+        </button>.
+      </p>
+
+      <h2 class="mt-8 text-xl font-semibold">Finalités et base légale</h2>
+      <ul>
+        <li>
+          <strong>Réponse aux demandes de contact</strong> : intérêt légitime de l'association à
+          communiquer avec les personnes qui la sollicitent.
+        </li>
+        <li>
+          <strong>Mesure d'audience</strong> : votre consentement, recueilli via la bannière de
+          cookies.
+        </li>
+      </ul>
+
+      <h2 class="mt-8 text-xl font-semibold">Durée de conservation</h2>
+      <ul>
+        <li>Messages de contact : le temps nécessaire au traitement de la demande.</li>
+        <li>Choix de consentement cookies : 6 mois, renouvelable à chaque visite.</li>
+        <li>Cookies Analytics (si acceptés) : jusqu'à 13 mois maximum.</li>
+      </ul>
+
+      <h2 class="mt-8 text-xl font-semibold">Destinataires des données</h2>
+      <p>
+        Les données de mesure d'audience sont traitées par Google (Google Analytics 4), dans le
+        cadre de ses conditions d'utilisation. L'association Repair Café 74 n'utilise pas ces
+        données à des fins publicitaires.
+      </p>
+
+      <h2 class="mt-8 text-xl font-semibold">Vos droits</h2>
+      <p>
+        Conformément au Règlement général sur la protection des données (RGPD), vous disposez
+        des droits suivants : accès, rectification, effacement, opposition, limitation du
+        traitement et portabilité de vos données.
+      </p>
+      <p>
+        Pour exercer ces droits, contactez-nous à
+        <a class="text-moss hover:text-ink" href="mailto:repaircafe74@gmail.com">repaircafe74@gmail.com</a>.
+        Vous pouvez également introduire une réclamation auprès de la CNIL
+        (<a class="text-moss hover:text-ink" href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">www.cnil.fr</a>).
+      </p>
+
+      <h2 class="mt-8 text-xl font-semibold">Sécurité</h2>
+      <p>
+        Le site est hébergé sur GitHub Pages (HTTPS). Nous mettons en œuvre des mesures
+        raisonnables pour protéger les données que nous traitons.
+      </p>
+    </article>
+  </section>
+</BaseLayout>

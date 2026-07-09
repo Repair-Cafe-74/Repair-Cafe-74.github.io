@@ -21,38 +21,41 @@ const entries = agendaEntries.map((entry) => ({
 <BaseLayout 
     title="Repair Café 74 – Réparer plutôt que jeter en Haute-Savoie" 
     description="Repair Café 74 (Haute-Savoie) rassemble des bénévoles, des outils et des savoir-faire pour aider chacun à diagnostiquer, réparer et apprendre dans une ambiance simple et conviviale.">
-  <section class="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.1fr_0.9fr] md:items-center lg:px-8">
-    <div>
-      <p class="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-clay">Haute-Savoie</p>
-      <h1 class="text-4xl font-semibold leading-tight sm:text-6xl">Réparer ensemble les objets du quotidien.</h1>
-      <p class="mt-6 max-w-2xl text-lg leading-8 text-ink/72">
-        Repair Café 74 rassemble des bénévoles, des outils et des savoir-faire pour aider chacun à diagnostiquer, réparer et apprendre dans une ambiance simple et conviviale.
-      </p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a class="rounded-md bg-moss px-5 py-3 text-sm font-semibold text-paper hover:bg-ink" href="/agenda">Voir les prochains ateliers</a>
-        <a class="rounded-md border border-ink/15 px-5 py-3 text-sm font-semibold hover:bg-mist" href="/carte">Trouver un lieu</a>
-      </div>
-    </div>
-    <div class="grid gap-3 rounded-md border border-ink/10 bg-white p-5 shadow-sm">
-      <div class="flex items-start gap-4">
-        <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-mist text-moss"><Wrench size={22} aria-hidden="true" /></span>
-        <div>
-          <h2 class="font-semibold">Réparer</h2>
-          <p class="mt-1 text-sm leading-6 text-ink/70">Des diagnostics collectifs pour prolonger la vie des appareils, vêtements, vélos et objets utiles.</p>
+  <section class="relative overflow-hidden bg-[url('/images/photos/2023-01-28-Repair-cafe-IUT.jpg')] bg-cover bg-center bg-no-repeat">
+    <div aria-hidden="true" class="absolute inset-0 bg-paper/80"></div>
+    <div class="relative z-10 mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.1fr_0.9fr] md:items-center lg:px-8">
+      <div>
+        <p class="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-clay">Haute-Savoie</p>
+        <h1 class="text-4xl font-semibold leading-tight sm:text-6xl">Réparer ensemble les objets du quotidien.</h1>
+        <p class="mt-6 max-w-2xl text-lg leading-8 text-ink/72">
+          Repair Café 74 rassemble des bénévoles, des outils et des savoir-faire pour aider chacun à diagnostiquer, réparer et apprendre dans une ambiance simple et conviviale.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a class="rounded-md bg-moss px-5 py-3 text-sm font-semibold text-paper hover:bg-ink" href="/agenda">Voir les prochains ateliers</a>
+          <a class="rounded-md border border-ink/15 bg-mist px-5 py-3 text-sm font-semibold hover:bg-paper" href="/carte">Trouver un lieu</a>
         </div>
       </div>
-      <div class="flex items-start gap-4">
-        <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-mist text-moss"><Recycle size={22} aria-hidden="true" /></span>
-        <div>
-          <h2 class="font-semibold">Transmettre</h2>
-          <p class="mt-1 text-sm leading-6 text-ink/70">Chaque atelier est un moment d'apprentissage, pas seulement un service de réparation.</p>
+      <div class="grid gap-3 rounded-md border border-ink/10 bg-white p-5 shadow-sm">
+        <div class="flex items-start gap-4">
+          <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-mist text-moss"><Wrench size={22} aria-hidden="true" /></span>
+          <div>
+            <h2 class="font-semibold">Réparer</h2>
+            <p class="mt-1 text-sm leading-6 text-ink/70">Des diagnostics collectifs pour prolonger la vie des appareils, vêtements, vélos et objets utiles.</p>
+          </div>
         </div>
-      </div>
-      <div class="flex items-start gap-4">
-        <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-mist text-moss"><MapPinned size={22} aria-hidden="true" /></span>
-        <div>
-          <h2 class="font-semibold">Rester local</h2>
-          <p class="mt-1 text-sm leading-6 text-ink/70">Des permanences légères, proches des quartiers et faciles à animer par des bénévoles.</p>
+        <div class="flex items-start gap-4">
+          <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-mist text-moss"><Recycle size={22} aria-hidden="true" /></span>
+          <div>
+            <h2 class="font-semibold">Transmettre</h2>
+            <p class="mt-1 text-sm leading-6 text-ink/70">Chaque atelier est un moment d'apprentissage, pas seulement un service de réparation.</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-mist text-moss"><MapPinned size={22} aria-hidden="true" /></span>
+          <div>
+            <h2 class="font-semibold">Rester local</h2>
+            <p class="mt-1 text-sm leading-6 text-ink/70">Des permanences légères, proches des quartiers et faciles à animer par des bénévoles.</p>
+          </div>
         </div>
       </div>
     </div>

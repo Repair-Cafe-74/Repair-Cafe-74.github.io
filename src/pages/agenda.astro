@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import { CalendarDays, ChevronLeft, ChevronRight, Clock, MapPin, X } from "@lucide/astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
-import { agendaTimeZone, buildAgendaEntries, buildAgendaMonths } from "../lib/agenda";
+import { agendaTimeZone, buildAgendaEntries, buildAgendaMonths, getFirstMonthWithEntries } from "../lib/agenda";
 
 const events = (await getCollection("events")).sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
 const permanences = (await getCollection("permanences")).sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
@@ -11,6 +11,7 @@ const locations = (await getCollection("locations")).sort((a, b) => a.data.name.
 const locationMap = new Map(locations.map((location) => [location.id, location]));
 const entries = buildAgendaEntries(events, locations, permanences);
 const calendarMonths = buildAgendaMonths(entries);
+const initialMonthIndex = getFirstMonthWithEntries(calendarMonths);
 const upcomingEvents = events.filter((event) => entries.some((entry) => entry.kind === "event" && entry.sourceId === event.id));
 const upcomingPermanences = permanences.filter((permanence) =>
   entries.some((entry) => entry.sourceId === permanence.id && entry.detailId.startsWith("agenda-permanence-")),
@@ -75,7 +76,7 @@ const permanenceDetails = await Promise.all(upcomingPermanences.map(async (perma
 <BaseLayout title="Agenda" description="Retrouvez les permanences des Repair Cafés de Haute-Savoie et autres événements des 12 prochains mois.">
   <PageHeader eyebrow="Agenda" title="Quand nous retrouver ?" description="Retrouvez les permanences des Repair Cafés et autres événements des 12 prochains mois. Attention aux mois de vacances scolaires ainsi qu'aux jours fériés: certains Repair Cafés peuvent être fermés." />
   <section class="agenda-view mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-    <div class="grid gap-5" data-agenda-calendar>
+    <div class="grid gap-5" data-agenda-calendar data-initial-month={initialMonthIndex}>
       <div class="agenda-toolbar flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div class="agenda-legend flex flex-wrap items-center gap-3 text-sm font-medium text-ink/72" aria-label="Filtres de l'agenda">
           <button class="agenda-filter inline-flex items-center gap-2 rounded border border-ink/10 bg-white px-3 py-2 shadow-sm" type="button" data-agenda-filter="permanence" aria-pressed="true">
@@ -90,7 +91,7 @@ const permanenceDetails = await Promise.all(upcomingPermanences.map(async (perma
           <button class="agenda-month-button inline-flex h-10 w-10 shrink-0 items-center justify-center rounded border border-ink/10 text-ink/74 hover:bg-mist hover:text-ink disabled:cursor-not-allowed disabled:opacity-35" type="button" data-agenda-prev aria-label="Mois précédent">
             <ChevronLeft size={20} aria-hidden="true" />
           </button>
-          <h2 class="text-center text-xl font-semibold capitalize sm:text-2xl" data-agenda-title>{monthFormatter.format(calendarMonths[0].titleDate)}</h2>
+          <h2 class="text-center text-xl font-semibold capitalize sm:text-2xl" data-agenda-title>{monthFormatter.format(calendarMonths[initialMonthIndex].titleDate)}</h2>
           <button class="agenda-month-button inline-flex h-10 w-10 shrink-0 items-center justify-center rounded border border-ink/10 text-ink/74 hover:bg-mist hover:text-ink disabled:cursor-not-allowed disabled:opacity-35" type="button" data-agenda-next aria-label="Mois suivant">
             <ChevronRight size={20} aria-hidden="true" />
           </button>
@@ -106,7 +107,7 @@ const permanenceDetails = await Promise.all(upcomingPermanences.map(async (perma
 
       <div class="agenda-months">
         {calendarMonths.map((month, monthIndex) => (
-          <article class={`agenda-month overflow-hidden rounded-md border border-ink/10 bg-white shadow-sm ${monthIndex === 0 ? "is-active" : ""}`} data-agenda-month data-month-title={monthFormatter.format(month.titleDate)}>
+          <article class={`agenda-month overflow-hidden rounded-md border border-ink/10 bg-white shadow-sm ${monthIndex === initialMonthIndex ? "is-active" : ""}`} data-agenda-month data-month-title={monthFormatter.format(month.titleDate)}>
             <div class="agenda-weekdays grid grid-cols-[3.25rem_repeat(7,minmax(0,1fr))] border-b border-ink/10 bg-paper text-center text-xs font-semibold uppercase text-ink/58">
               <div class="border-r border-ink/10 px-2 py-3">Sem.</div>
               {weekdays.map((day) => <div class="border-r border-ink/10 px-3 py-3 last:border-r-0">{day}</div>)}
@@ -244,7 +245,7 @@ const permanenceDetails = await Promise.all(upcomingPermanences.map(async (perma
   </section>
 
   <script>
-    const calendar = document.querySelector("[data-agenda-calendar]");
+    const calendar = document.querySelector<HTMLElement>("[data-agenda-calendar]");
 
     if (calendar) {
       const months = Array.from(calendar.querySelectorAll<HTMLElement>("[data-agenda-month]"));
@@ -328,7 +329,8 @@ const permanenceDetails = await Promise.all(upcomingPermanences.map(async (perma
         popover.scrollIntoView({ behavior: "smooth", block: "nearest" });
       });
 
-      showMonth(0);
+      const initialMonth = Number(calendar.dataset.initialMonth ?? 0);
+      showMonth(initialMonth);
       updateVisibleEntries();
     }
   </script>

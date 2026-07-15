@@ -385,3 +385,11 @@ export const buildAgendaMonths = (entries: AgendaEntry[], now = new Date()) => {
 
   return months;
 };
+
+export const getFirstMonthWithEntries = (months: AgendaMonth[]) => {
+  const index = months.findIndex((month) =>
+    month.weeks.some((week) => week.days.some((day) => day.entries.length > 0)),
+  );
+
+  return index === -1 ? 0 : index;
+};

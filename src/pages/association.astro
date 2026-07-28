@@ -1,78 +1,187 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
-import { Drill, Brain, Handshake, Download, UsersRound } from "@lucide/astro";
+import {
+  Brain,
+  CalendarDays,
+  Download,
+  Drill,
+  ExternalLink,
+  FileText,
+  Globe,
+  Handshake,
+  Mail,
+  Target,
+  Users,
+  UsersRound,
+} from "@lucide/astro";
 ---
 
 <BaseLayout title="Association" description="L'association Repair Café 74, son histoire, ses objectifs et ses informations légales.">
-  <PageHeader eyebrow="Association" title="Le Repair Café : une association locale pour apprendre à réparer." description="Que faire d’une chaise au pied branlant ? D’un grille-pain qui ne marche plus ? D’un pull troué ? Les jeter ? Pas question ! On les remet en état au Repair Café." />
-  <section class="mx-auto grid max-w-6xl gap-8 px-4 sm:px-6 md:grid-cols-2 lg:px-8">
+  <PageHeader
+    eyebrow="Association"
+    title="Le Repair Café : une association locale pour apprendre à réparer."
+    description="Que faire d’une chaise au pied branlant ? D’un grille-pain qui ne marche plus ? D’un pull troué ? Les jeter ? Pas question ! On les remet en état au Repair Café."
+  />
+
+  <section class="mx-auto grid max-w-6xl gap-8 px-4 pb-10 sm:px-6 md:grid-cols-2 lg:px-8">
     <article class="rounded-md border border-ink/10 bg-white p-6 shadow-sm">
-      <h2 class="text-xl font-semibold">Réparer ensemble, c’est l’idée des Repair Cafés dont l’entrée est ouverte à tous.</h2>
+      <h2 class="flex items-center gap-3 text-xl font-semibold">
+        <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-mist text-moss">
+          <Users size={20} aria-hidden="true" />
+        </span>
+        Réparer ensemble
+      </h2>
+      <p class="mt-4 leading-7 text-ink/72">
+        Réparer ensemble, c’est l’idée des Repair Cafés dont l’entrée est ouverte à tous.
+      </p>
       <p class="mt-3 leading-7 text-ink/72">
-        On y apporte des objets défectueux qu’on a chez soi. Et on se met à l’ouvrage avec les gens du métier. 
-        Outils et matériel sont disponibles au Repair Café pour faire toutes sortes de réparations :  appareils électriques, objets utiles, 
-        jouets, ustensiles divers, vêtements, meubles, bicyclettes…
-        <br>
-        Des bénévoles, experts en la matière, sont aussi au rendez-vous : électriciens, couturières, menuisiers, réparateurs de bicyclettes …  
-        C’est gratuit, avec la possibilité de participer financièrement en libre conscience pour permettre au Repair Café d’acheter des outils 
-        adaptés, des composants de remplacement, du café, des petits gâteaux pour mieux réparer et mieux vous accueillir !
-        <br><br>
-        Il y a toujours quelque chose à apprendre au Repair Café. Qui n’a rien à réparer prend un café ou un thé, ou aide à réparer un objet appartenant à un autre.
+        On y apporte des objets défectueux qu’on a chez soi. Et on se met à l’ouvrage avec les gens
+        du métier. Outils et matériel sont disponibles au Repair Café pour faire toutes sortes de
+        réparations : appareils électriques, objets utiles, jouets, ustensiles divers, vêtements,
+        meubles, bicyclettes…
+      </p>
+      <p class="mt-3 leading-7 text-ink/72">
+        Des bénévoles, experts en la matière, sont aussi au rendez-vous : électriciens,
+        couturières, menuisiers, réparateurs de bicyclettes… C’est gratuit, avec la possibilité de
+        participer financièrement en libre conscience pour permettre au Repair Café d’acheter des
+        outils adaptés, des composants de remplacement, du café, des petits gâteaux pour mieux
+        réparer et mieux vous accueillir !
+      </p>
+      <p class="mt-3 leading-7 text-ink/72">
+        Il y a toujours quelque chose à apprendre au Repair Café. Qui n’a rien à réparer prend un
+        café ou un thé, ou aide à réparer un objet appartenant à un autre.
       </p>
     </article>
+
     <article class="rounded-md border border-ink/10 bg-white p-6 shadow-sm">
-      <h2 class="text-xl font-semibold">Objectifs d’un Repair Café</h2>
-      <p class="mt-3 leading-7 text-ink/72">
-        <Drill size={20} aria-hidden="true" /> 
-        Promouvoir d’une manière conviviale la réparation des objets pour éviter leur mise au rebut
-      </p>
-      <p class="mt-3 leading-7 text-ink/72">
-        <Brain size={20} aria-hidden="true" /> 
-        Transmettre le savoir-faire en matière de réparation
-      </p>
-      <p class="mt-3 leading-7 text-ink/72">        
-        <Handshake size={20} aria-hidden="true" /> 
-        Développer le lien entre voisins grâce à une manifestation stimulante ouverte à tous
-      </p>
+      <h2 class="flex items-center gap-3 text-xl font-semibold">
+        <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-mist text-moss">
+          <Target size={20} aria-hidden="true" />
+        </span>
+        Objectifs
+      </h2>
+      <ul class="mt-4 space-y-4">
+        <li class="flex items-start gap-3 leading-7 text-ink/72">
+          <span class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-mist text-moss">
+            <Drill size={18} aria-hidden="true" />
+          </span>
+          <span>Promouvoir d’une manière conviviale la réparation des objets pour éviter leur mise au rebut</span>
+        </li>
+        <li class="flex items-start gap-3 leading-7 text-ink/72">
+          <span class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-mist text-moss">
+            <Brain size={18} aria-hidden="true" />
+          </span>
+          <span>Transmettre le savoir-faire en matière de réparation</span>
+        </li>
+        <li class="flex items-start gap-3 leading-7 text-ink/72">
+          <span class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-mist text-moss">
+            <Handshake size={18} aria-hidden="true" />
+          </span>
+          <span>Développer le lien entre voisins grâce à une manifestation stimulante ouverte à tous</span>
+        </li>
+      </ul>
     </article>
+
     <article class="rounded-md border border-ink/10 bg-white p-6 shadow-sm">
-      <h2 class="text-xl font-semibold">Origine</h2>
-      <p class="mt-3 leading-7 text-ink/72">
-        En 2009, aux Pays-Bas, Martine POSTMA, journaliste, et Peter VAN VLIET, promoteur de la durabilité, ont conçu l’idée du Repair Café. 
-        Le principe est d’aménager partout dans le pays des lieux de rencontre ouverte à tous, où les habitants du quartier pourraient venir 
+      <h2 class="flex items-center gap-3 text-xl font-semibold">
+        <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-mist text-moss">
+          <Globe size={20} aria-hidden="true" />
+        </span>
+        Origine
+      </h2>
+      <p class="mt-4 leading-7 text-ink/72">
+        En 2009, aux Pays-Bas, Martine POSTMA, journaliste, et Peter VAN VLIET, promoteur de la
+        durabilité, ont conçu l’idée du Repair Café. Le principe est d’aménager partout dans le
+        pays des lieux de rencontre ouverte à tous, où les habitants du quartier pourraient venir
         réparer leurs objets sous la conduite de gens du métier, dans une ambiance conviviale.
-        <br>
-        En 2010, l’association Repair Café Pays-Bas était fondée et organisait une dizaine de Repair Cafés à Amsterdam. 
-        Depuis 2011, elle appuie des groupes locaux partout aux Pays-Bas et dans d’autres pays qui veulent démarrer leur propre Repair Café.
-        <br><br>
-        Aujourd’hui, il existe 200 Repair Cafés au Pays-Bas, 100 en Belgique, 500 en Allemagne, plus de 100 en France, et sans doute bientôt 1000 dans le monde !
-        <br><br>
-        Pour en savoir plus, rendez-vous sur le site officiel du Repair Café : <a class="text-moss hover:text-ink" href="https://www.repaircafe.org/fr/" target="_blank">https://www.repaircafe.org</a>
+      </p>
+      <p class="mt-3 leading-7 text-ink/72">
+        En 2010, l’association Repair Café Pays-Bas était fondée et organisait une dizaine de
+        Repair Cafés à Amsterdam. Depuis 2011, elle appuie des groupes locaux partout aux Pays-Bas
+        et dans d’autres pays qui veulent démarrer leur propre Repair Café.
+      </p>
+      <p class="mt-3 leading-7 text-ink/72">
+        Aujourd’hui, il existe 200 Repair Cafés au Pays-Bas, 100 en Belgique, 500 en Allemagne,
+        plus de 100 en France, et sans doute bientôt 1000 dans le monde !
+      </p>
+      <p class="mt-3 leading-7 text-ink/72">
+        Pour en savoir plus, rendez-vous sur le
+        <a
+          class="inline-flex items-center gap-1 text-moss hover:text-ink"
+          href="https://www.repaircafe.org/fr/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          site officiel du Repair Café
+          <ExternalLink size={15} aria-hidden="true" />
+        </a>.
       </p>
     </article>
+
     <article class="rounded-md border border-ink/10 bg-white p-6 shadow-sm">
-      <h2 class="text-xl font-semibold">Statuts, Règlement et Représentants</h2>
-      <p class="mt-3 leading-7 text-ink/72">
-        Statuts REPAIR CAFE 74 mise à jour octobre 2021  
-        <a class="inline-flex items-center gap-2 rounded-md bg-moss px-4 py-2 text-sm font-semibold text-paper hover:bg-ink" href="../documents/Statuts-REPAIR-CAFE-74-mise-a-jour-octobre-2021.pdf">
+      <h2 class="flex items-center gap-3 text-xl font-semibold">
+        <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-mist text-moss">
+          <FileText size={20} aria-hidden="true" />
+        </span>
+        Statuts et règlement
+      </h2>
+      <div class="mt-4 flex flex-wrap gap-3">
+        <a
+          class="inline-flex items-center gap-2 rounded-md bg-moss px-4 py-2 text-sm font-semibold text-paper hover:bg-ink"
+          href="/documents/Statuts-REPAIR-CAFE-74-mise-a-jour-octobre-2021.pdf"
+        >
           <Download size={17} aria-hidden="true" />
-          Télécharger
+          Statuts
         </a>
-      </p>
-      <p class="mt-3 leading-7 text-ink/72">
-        Règlement intérieur REPAIR CAFE 74  
-        <a class="inline-flex items-center gap-2 rounded-md bg-moss px-4 py-2 text-sm font-semibold text-paper hover:bg-ink" href="../documents/Reglement-interieur-REPAIR-CAFE-741.pdf">
+        <a
+          class="inline-flex items-center gap-2 rounded-md bg-moss px-4 py-2 text-sm font-semibold text-paper hover:bg-ink"
+          href="/documents/Reglement-interieur-REPAIR-CAFE-741.pdf"
+        >
           <Download size={17} aria-hidden="true" />
-          Télécharger
+          Règlement intérieur
         </a>
-      </p>
-      <p class="pt-5 mt-3 leading-7 text-ink/72">
-        <h2 class="flex items-start gap-2 font-semibold"><UsersRound class="mt-1 shrink-0 text-clay" size={18} aria-hidden="true" />Représentants</h2>
-        - <b>Christophe ODDOUX</b>, président, en charge de l’organisation des manifestations
-        <br/>
-        - <b>Christine CLARENS</b>, trésorière
-      </p>
+      </div>
+
+      <h3 class="mt-8 flex items-center gap-3 text-lg font-semibold">
+        <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-mist text-moss">
+          <UsersRound size={20} aria-hidden="true" />
+        </span>
+        Représentants
+      </h3>
+      <ul class="mt-4 list-disc space-y-2 pl-5 leading-7 text-ink/72">
+        <li>
+          <strong>Christophe ODDOUX</strong>, président, en charge de l’organisation des
+          manifestations
+        </li>
+        <li><strong>Christine CLARENS</strong>, trésorière</li>
+      </ul>
     </article>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8">
+    <div class="rounded-md border border-ink/10 bg-mist px-6 py-8 sm:px-8">
+      <p class="text-lg font-semibold text-ink">Envie de nous rencontrer ou de nous écrire&nbsp;?</p>
+      <p class="mt-2 max-w-2xl leading-7 text-ink/72">
+        Venez à une permanence près de chez vous, ou contactez l’association pour poser une
+        question ou proposer un coup de main.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a
+          class="inline-flex items-center gap-2 rounded-md bg-moss px-5 py-3 text-sm font-semibold text-paper hover:bg-ink"
+          href="/agenda"
+        >
+          <CalendarDays size={17} aria-hidden="true" />
+          Voir l’agenda
+        </a>
+        <a
+          class="inline-flex items-center gap-2 rounded-md border border-ink/15 bg-white px-5 py-3 text-sm font-semibold hover:bg-paper"
+          href="/contact"
+        >
+          <Mail size={17} aria-hidden="true" />
+          Nous écrire
+        </a>
+      </div>
+    </div>
   </section>
 </BaseLayout>

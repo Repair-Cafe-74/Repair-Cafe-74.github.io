@@ -1,0 +1,155 @@
+---
+import { BadgeCheck, Leaf, Settings2 } from "@lucide/astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+
+const ecoIndexUrl =
+  "https://www.ecoindex.fr/resultat/?id=d5b09826-dbc5-4cab-b8f3-d20f6b6294d4";
+---
+
+<BaseLayout
+  title="Éco-conception"
+  description="Pourquoi et comment le site Repair Café 74 est conçu pour limiter son impact environnemental."
+>
+  <PageHeader
+    eyebrow="Démarche"
+    title="Éco-conception"
+    description="Comme le reste de notre action, ce site vise à limiter son impact : pages sobres, techniques simples, contenus utiles."
+  />
+
+  <section class="mx-auto max-w-3xl px-4 pb-16 sm:px-6 lg:px-8">
+    <article class="prose-content rounded-md border border-ink/10 bg-white p-6 shadow-sm sm:p-8">
+      <h2 class="flex items-center gap-3 text-xl font-semibold">
+        <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-mist text-moss">
+          <Leaf size={20} aria-hidden="true" />
+        </span>
+        L’enjeu
+      </h2>
+      <p>
+        Le numérique a une empreinte réelle. En France, il représente environ
+        <strong>4,4&nbsp;% de l’empreinte carbone nationale</strong> et
+        <strong>11&nbsp;% de la consommation électrique</strong>
+        (<a
+          class="text-moss hover:text-ink italic"
+          href="https://ecoresponsable.numerique.gouv.fr/actualites/actualisation-ademe-impact/"
+          target="_blank"
+          rel="noopener noreferrer">ADEME / Arcep, 2024</a
+        >). À l’échelle mondiale, il pèse environ
+        <strong>3,4&nbsp;% des émissions de gaz à effet de serre</strong>
+        (<a
+          class="text-moss hover:text-ink italic"
+          href="https://greenit.eco/nos-etudes-et-essais/impacts-environnementaux-du-numerique-dans-le-monde-2025/"
+          target="_blank"
+          rel="noopener noreferrer">GreenIT, 2025</a
+        >).
+      </p>
+      <p>
+        Les sites web y contribuent : chaque visite transfère des données,
+        sollicite des serveurs et le terminal de la personne qui consulte. Or
+        le web s’alourdit — fin 2024, une page médiane pesait environ
+        <strong>2,6&nbsp;Mo sur ordinateur</strong> et
+        <strong>2,3&nbsp;Mo sur mobile</strong>
+        (<a
+          class="text-moss hover:text-ink italic"
+          href="https://almanac.httparchive.org/en/2024/page-weight"
+          target="_blank"
+          rel="noopener noreferrer">HTTP Archive</a
+        >), images et JavaScript en tête. Plus une page est lourde, plus elle
+        consomme de bande passante, d’énergie et de puissance de calcul.
+      </p>
+      <p>
+        Alléger un site, c’est aussi le rendre utilisable sur des appareils plus
+        anciens ou modestes. Cela prolonge leur durée de vie — en cohérence avec
+        la mission du Repair Café&nbsp;: <strong>réparer plutôt que jeter</strong>.
+      </p>
+
+      <h2 class="mt-8 flex items-center gap-3 text-xl font-semibold">
+        <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-mist text-moss">
+          <Settings2 size={20} aria-hidden="true" />
+        </span>
+        Nos choix
+      </h2>
+      <p>
+        Ce site est conçu pour rester léger, sans fonctionnalités superflues.
+        Les choix techniques suivent cette ligne&nbsp;:
+      </p>
+      <ul>
+        <li>
+          <strong>Site statique</strong> : les pages sont générées à l’avance
+          (hébergement GitHub Pages). Pas de serveur de rendu à chaque visite,
+          ni de stack applicative lourde côté serveur.
+        </li>
+        <li>
+          <strong>Astro, sans framework JavaScript avancé côté client</strong> :
+          le HTML et le CSS suffisent pour l’essentiel. On limite ainsi le poids
+          des pages et le travail demandé au navigateur.
+        </li>
+        <li>
+          <strong>Peu de requêtes inutiles</strong> : pas d’appels d’API pour
+          afficher le contenu principal ; polices système (pas de CDN de fonts
+          externes).
+        </li>
+        <li>
+          <strong>Structure simple et images avec parcimonie</strong> : contenus
+          utiles, illustrations limitées et compressées.
+        </li>
+        <li>
+          <strong>Mesure d’audience uniquement avec consentement</strong> :
+          sans votre accord, aucun cookie analytics n’est activé.
+        </li>
+      </ul>
+
+      <h2 class="mt-8 flex items-center gap-3 text-xl font-semibold">
+        <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-mist text-moss">
+          <BadgeCheck size={20} aria-hidden="true" />
+        </span>
+        Fact checking
+      </h2>
+      <p>
+        L’empreinte d’une page peut être évaluée avec
+        <a
+          class="text-moss hover:text-ink"
+          href="https://www.ecoindex.fr/"
+          target="_blank"
+          rel="noopener noreferrer">EcoIndex</a
+        >, qui attribue une note de A à G selon le poids, la complexité du DOM
+        et le nombre de requêtes HTTP.
+      </p>
+      <p>
+        Une analyse de ce site a obtenu la note <strong>A</strong>. Vous pouvez
+        consulter le détail du résultat et vérifier par vous-même&nbsp;:
+      </p>
+      <p class="mt-6">
+        <a
+          class="inline-block"
+          href={ecoIndexUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src="/images/ecoindex-a.svg"
+            alt="Badge EcoIndex A"
+            width="108"
+            height="32"
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
+      </p>
+      <p class="mt-4">
+        <a
+          class="text-moss hover:text-ink"
+          href={ecoIndexUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Voir l’analyse EcoIndex de ce site
+        </a>
+      </p>
+      <p class="text-sm text-ink/60">
+        Le score EcoIndex est une mesure à un instant donné ; il peut évoluer
+        si le contenu ou les dépendances du site changent.
+      </p>
+    </article>
+  </section>
+</BaseLayout>

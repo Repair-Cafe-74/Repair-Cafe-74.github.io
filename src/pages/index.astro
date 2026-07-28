@@ -1,13 +1,23 @@
 ---
-import { CalendarDays, MapPinned, Recycle, Wrench } from "@lucide/astro";
+import { CalendarDays, MapPinned, Newspaper, Recycle, Wrench } from "@lucide/astro";
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import EventCard from "../components/EventCard.astro";
 import { buildAgendaEntries } from "../lib/agenda";
 
+const THREE_MONTHS_MS = 91 * 24 * 60 * 60 * 1000;
+
 const events = await getCollection("events");
 const permanences = await getCollection("permanences");
 const locations = await getCollection("locations");
+const news = (await getCollection("news")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const latestNews = news[0] ?? null;
+const showLatestNews = latestNews !== null && Date.now() - latestNews.data.date.valueOf() < THREE_MONTHS_MS;
+const latestNewsDate = latestNews
+  ? new Intl.DateTimeFormat("fr-FR", { dateStyle: "long" }).format(latestNews.data.date)
+  : "";
 const agendaEntries = buildAgendaEntries(events, locations, permanences).slice(0, 2);
 const eventMap = new Map(events.map((event) => [event.id, event]));
 const permanenceMap = new Map(permanences.map((permanence) => [permanence.id, permanence]));
@@ -60,6 +70,39 @@ const entries = agendaEntries.map((entry) => ({
       </div>
     </div>
   </section>
+
+  {showLatestNews && latestNews && (
+    <section class="py-14">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-7 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p class="mb-2 flex items-center gap-2 text-sm font-semibold text-clay">
+              <Newspaper size={17} aria-hidden="true" /> Actualités
+            </p>
+            <h2 class="text-3xl font-semibold">Dernière actualité</h2>
+          </div>
+          <a class="text-sm font-semibold text-moss hover:text-ink" href="/actualites">Toutes les actualités</a>
+        </div>
+        <article class="rounded-md border border-ink/10 bg-white p-5 shadow-sm md:p-7">
+          <p class="text-sm text-ink/60">
+            <time datetime={latestNews.data.date.toISOString()}>{latestNewsDate}</time>
+            <span aria-hidden="true"> · </span>
+            <span>{latestNews.data.author}</span>
+          </p>
+          <h3 class="mt-2 text-2xl font-semibold">
+            <a class="hover:text-moss" href={`/actualites/${latestNews.slug}`}>{latestNews.data.title}</a>
+          </h3>
+          <p class="mt-3 max-w-3xl leading-7 text-ink/72">{latestNews.data.summary}</p>
+          <a
+            class="mt-5 inline-flex text-sm font-semibold text-moss hover:text-ink"
+            href={`/actualites/${latestNews.slug}`}
+          >
+            Lire l'article
+          </a>
+        </article>
+      </div>
+    </section>
+  )}
 
   <section class="bg-mist/70 py-14">
     <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">

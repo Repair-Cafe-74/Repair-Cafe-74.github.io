@@ -28,6 +28,16 @@ const press = defineCollection({
   }),
 });
 
+const news = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    summary: z.string(),
+    author: z.string(),
+  }),
+});
+
 const resources = defineCollection({
   type: "content",
   schema: z.object({
@@ -93,4 +103,4 @@ const permanences = defineCollection({
     }),
 });
 
-export const collections = { events, faq, press, resources, photos, locations, permanences };
+export const collections = { events, faq, press, news, resources, photos, locations, permanences };

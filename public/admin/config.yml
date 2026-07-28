@@ -107,3 +107,15 @@ collections:
       - { label: "Source", name: "source", widget: "string" }
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Contenu", name: "body", widget: "markdown", required: false }
+
+  - name: "news"
+    label: "Actualités"
+    folder: "src/content/news"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Titre", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Résumé", name: "summary", widget: "text" }
+      - { label: "Auteur", name: "author", widget: "string" }
+      - { label: "Contenu", name: "body", widget: "markdown" }

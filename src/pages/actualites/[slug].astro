@@ -1,0 +1,39 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const articles = await getCollection("news");
+  return articles.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+type Props = {
+  entry: CollectionEntry<"news">;
+};
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const formattedDate = new Intl.DateTimeFormat("fr-FR", { dateStyle: "long" }).format(entry.data.date);
+---
+
+<BaseLayout title={entry.data.title} description={entry.data.summary}>
+  <article class="mx-auto max-w-3xl px-4 pb-14 pt-12 sm:px-6 lg:px-8">
+    <p class="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-clay">Actualités</p>
+    <h1 class="text-4xl font-semibold leading-tight text-ink sm:text-5xl">{entry.data.title}</h1>
+    <p class="mt-4 text-sm text-ink/60">
+      <time datetime={entry.data.date.toISOString()}>{formattedDate}</time>
+      <span aria-hidden="true"> · </span>
+      <span>{entry.data.author}</span>
+    </p>
+    <p class="mt-6 text-lg leading-8 text-ink/72">{entry.data.summary}</p>
+    <div class="prose-content mt-10 text-ink/80">
+      <Content />
+    </div>
+    <p class="mt-12">
+      <a class="text-sm font-semibold text-moss hover:text-ink" href="/actualites">← Toutes les actualités</a>
+    </p>
+  </article>
+</BaseLayout>

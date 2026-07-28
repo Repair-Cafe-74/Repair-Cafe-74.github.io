@@ -1,0 +1,68 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import NewsCard from "../../components/NewsCard.astro";
+
+const PAGE_SIZE = 5;
+const articles = (await getCollection("news")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<BaseLayout
+  title="Actualités"
+  description="Les dernières nouvelles de Repair Café 74 et des ateliers en Haute-Savoie."
+>
+  <PageHeader
+    eyebrow="Actualités"
+    title="La vie de l'association."
+    description="Retrouvez ici les nouvelles de Repair Café 74 : initiatives locales, moments forts des ateliers et informations utiles."
+  />
+
+  <section class="mx-auto max-w-4xl px-4 pb-14 sm:px-6 lg:px-8">
+    {articles.length === 0 ? (
+      <p class="rounded-md border border-ink/10 bg-white p-5 text-ink/72 shadow-sm">
+        Aucune actualité pour le moment. Revenez bientôt !
+      </p>
+    ) : (
+      <>
+        <div class="grid gap-4" data-news-list>
+          {articles.map((entry, index) => (
+            <NewsCard entry={entry} hidden={index >= PAGE_SIZE} />
+          ))}
+        </div>
+        {articles.length > PAGE_SIZE && (
+          <div class="mt-8 flex justify-center">
+            <button
+              type="button"
+              class="rounded-md border border-ink/15 bg-mist px-5 py-3 text-sm font-semibold hover:bg-paper"
+              data-news-load-more
+              data-page-size={PAGE_SIZE}
+            >
+              Charger plus
+            </button>
+          </div>
+        )}
+      </>
+    )}
+  </section>
+</BaseLayout>
+
+{articles.length > PAGE_SIZE && (
+  <script>
+    const button = document.querySelector<HTMLButtonElement>("[data-news-load-more]");
+    if (button) {
+      const pageSize = Number(button.dataset.pageSize || 5);
+
+      button.addEventListener("click", () => {
+        const hiddenCards = document.querySelectorAll<HTMLElement>("[data-news-card].hidden");
+        [...hiddenCards].slice(0, pageSize).forEach((card) => card.classList.remove("hidden"));
+
+        if (document.querySelectorAll("[data-news-card].hidden").length === 0) {
+          button.remove();
+        }
+      });
+    }
+  </script>
+)}

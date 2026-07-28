@@ -18,10 +18,13 @@ function updateGtagConsent() {
     ad_user_data: "denied",
     ad_personalization: "denied",
   });
+}
 
-  if (analyticsGranted) {
-    window.dataLayer.push({ event: "analytics_consent_granted" });
-  }
+function notifyAnalyticsConsentGranted(changedCategories: string[]) {
+  if (!changedCategories.includes("analytics")) return;
+  if (!acceptedCategory("analytics")) return;
+
+  window.dataLayer.push({ event: "analytics_consent_granted" });
 }
 
 export const cookieConsentConfig: CookieConsentConfig = {
@@ -61,7 +64,10 @@ export const cookieConsentConfig: CookieConsentConfig = {
   },
 
   onConsent: updateGtagConsent,
-  onChange: updateGtagConsent,
+  onChange: ({ changedCategories }) => {
+    updateGtagConsent();
+    notifyAnalyticsConsentGranted(changedCategories);
+  },
 
   language: {
     default: "fr",

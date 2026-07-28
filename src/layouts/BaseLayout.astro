@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { CalendarDays, HandHeart, MapPinned, Menu } from "@lucide/astro";
+import { CalendarDays, HandHeart, Mail, MapPinned, Menu } from "@lucide/astro";
 import CookieConsent from "../components/CookieConsent.astro";
 import GoogleConsent from "../components/GoogleConsent.astro";
 import SEO from "../components/SEO.astro";
@@ -22,7 +22,6 @@ const navItems = [
   ["Tutoriels", "/ressources"],
   ["Presse", "/presse"],
   ["Photos", "/photos"],
-  ["Contact", "/contact"],
 ];
 ---
 
@@ -68,7 +67,7 @@ const navItems = [
     </main>
 
     <footer class="mt-20 border-t border-ink/10 bg-mist">
-      <div class="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-[1.5fr_1fr_1fr] lg:px-8">
+      <div class="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-[1.5fr_1fr_1fr_1fr] lg:px-8">
         <div>
           <div class="mb-3 flex items-center gap-2 font-semibold">
             <HandHeart size={20} aria-hidden="true" />
@@ -90,6 +89,13 @@ const navItems = [
           <a class="flex items-center gap-2 text-ink/72 hover:text-ink" href="/carte">
             <MapPinned size={17} aria-hidden="true" />
             Ouvrir la carte
+          </a>
+        </div>
+        <div class="text-sm">
+          <p class="mb-3 font-semibold">Contact</p>
+          <a class="flex items-center gap-2 text-ink/72 hover:text-ink" href="/contact">
+            <Mail size={17} aria-hidden="true" />
+            Nous écrire
           </a>
         </div>
       </div>

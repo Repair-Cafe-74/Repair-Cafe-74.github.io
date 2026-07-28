@@ -9,15 +9,31 @@ import { GTM_ID } from "../config/analytics";
     dataLayer.push(arguments);
   }
 
+  function hasStoredAnalyticsConsent() {
+    try {
+      var match = document.cookie.match(/(?:^|;\s*)cc_cookie=([^;]*)/);
+      if (!match) return false;
+
+      var data = JSON.parse(decodeURIComponent(match[1]));
+      return (
+        Array.isArray(data.categories) && data.categories.indexOf("analytics") !== -1
+      );
+    } catch (error) {
+      return false;
+    }
+  }
+
+  var analyticsAlreadyGranted = hasStoredAnalyticsConsent();
+
   gtag("consent", "default", {
     ad_personalization: "denied",
     ad_storage: "denied",
     ad_user_data: "denied",
-    analytics_storage: "denied",
+    analytics_storage: analyticsAlreadyGranted ? "granted" : "denied",
     functionality_storage: "denied",
     personalization_storage: "denied",
     security_storage: "granted",
-    wait_for_update: 500,
+    wait_for_update: analyticsAlreadyGranted ? 0 : 2000,
   });
   gtag("set", "ads_data_redaction", true);
 </script>

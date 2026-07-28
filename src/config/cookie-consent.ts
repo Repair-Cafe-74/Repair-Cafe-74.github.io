@@ -18,6 +18,10 @@ function updateGtagConsent() {
     ad_user_data: "denied",
     ad_personalization: "denied",
   });
+
+  if (analyticsGranted) {
+    window.dataLayer.push({ event: "analytics_consent_granted" });
+  }
 }
 
 export const cookieConsentConfig: CookieConsentConfig = {

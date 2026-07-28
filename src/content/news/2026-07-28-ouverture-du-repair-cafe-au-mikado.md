@@ -1,7 +1,7 @@
 ---
 title: Le Repair Café 74 s'installe au Mikado
-date: 2026-06-29T10:00:00.000+02:00
-summary: Le Repair Café 74 ouvre un nouveau rendez-vous mensuel au Mikado.
+date: 2026-07-28T10:00:00.000+02:00
+summary: Le Repair Café 74 ouvre un nouveau rendez-vous mensuel au Mikado !
 author: L'équipe Repair Café 74
 ---
 
@@ -16,6 +16,6 @@ Ce nouveau rendez-vous est ouvert à toutes et à tous, que l'on vienne avec un 
 Avec cette nouvelle implantation, le Repair Café 74 poursuit son développement sur le territoire annécien.
 
 📅 Premier rendez-vous : samedi 5 septembre, de 9h à 12h.
-📍 Lieu : Le Mikado – site des [Teppes](https://maps.app.goo.gl/5fuBXifucXoJB8ru9), Annecy.
+📍 Lieu : Le Mikado – site des **[Teppes](https://maps.app.goo.gl/5fuBXifucXoJB8ru9)**, Annecy.
 
 Venez avec vos objets à réparer… et votre bonne humeur !

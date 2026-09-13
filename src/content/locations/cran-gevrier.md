@@ -1,7 +1,7 @@
 ---
 name: "Repair Café Cran-Gevrier"
-lat: 45.9085058
-lng: 6.1075053
+lat: 45.90851682111457
+lng: 6.110127313985067
 address: "La SERRE, 21 rue du Vernay, 74960 Cran-Gevrier"
 hours: "2e samedi matin de chaque mois, 8h30-12h, sauf juillet et août"
 ---

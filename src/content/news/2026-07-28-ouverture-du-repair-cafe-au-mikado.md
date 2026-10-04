@@ -7,6 +7,8 @@ author: L'équipe Repair Café 74
 
 Bonne nouvelle pour les habitants du quartier Novel-Teppes : à partir du samedi 5 septembre, le Repair Café 74 ouvre un nouveau point de rencontre mensuel au Mikado MJC Centre Social.
 
+![Repair Café au Mikado](../../../public/images/news/2026-07-Ouverture-RC-Mikado.png "Repair Café au Mikado")
+
 Organisé en partenariat avec le Mikado, ce nouveau rendez-vous se tiendra chaque premier samedi du mois, de 9h à 12h. Les habitants pourront y venir avec leurs objets en panne ou cassés pour tenter de les réparer avec l'aide des bénévoles du Repair Café 74.
 
 Au-delà de la réparation, ces rencontres sont aussi l'occasion d'échanger des conseils, de partager des savoir-faire et de passer un moment convivial entre habitants.
